@@ -127,3 +127,5 @@ cython_debug/
 .vscode/
 *.swp
 *.swo
+
+.DS_Store
