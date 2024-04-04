@@ -1,6 +1,6 @@
 [server side]
 
-###How to setup Python environment for this project
+### How to setup Python environment for this project
 
 ## 1) run venv setup script
 
