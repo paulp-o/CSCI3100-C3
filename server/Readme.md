@@ -4,7 +4,7 @@
 
 # 1. Windows
 
-- run setup_venv.bat file by double-clicking or `setup_venv.bat` in cmd
+- run setup_venv.bat file by double-clicking or `setup_venv_win.bat` in cmd
 
 # 2. Mac
 
