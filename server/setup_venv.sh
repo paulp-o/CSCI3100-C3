@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # The directory where the virtual environment will be created, inside the server directory
-VENV_DIR="server/venv"
+VENV_DIR="venv"
 
 # The requirements file inside the server directory
-REQUIREMENTS_FILE="server/requirements.txt"
+REQUIREMENTS_FILE="requirements.txt"
 
 # Exit in case of error
 set -e

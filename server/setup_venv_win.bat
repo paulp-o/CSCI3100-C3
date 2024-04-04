@@ -1,10 +1,10 @@
 @echo off
 
 REM The directory where the virtual environment will be created, inside the server directory
-SET VENV_DIR=server\venv
+SET VENV_DIR=venv
 
 REM The requirements file inside the server directory
-SET REQUIREMENTS_FILE=server\requirements.txt
+SET REQUIREMENTS_FILE=requirements.txt
 
 REM Check if python is installed
 python --version >nul 2>&1
