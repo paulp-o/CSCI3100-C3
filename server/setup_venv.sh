@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# The directory where the virtual environment will be created
-VENV_DIR="venv"
+# The directory where the virtual environment will be created, inside the server directory
+VENV_DIR="server/venv"
 
-# The requirements file
-REQUIREMENTS_FILE="requirements.txt"
+# The requirements file inside the server directory
+REQUIREMENTS_FILE="server/requirements.txt"
 
 # Exit in case of error
 set -e
@@ -16,7 +16,7 @@ if ! command -v python3 &>/dev/null; then
 fi
 
 # Create a virtual environment
-echo "Creating virtual environment..."
+echo "Creating virtual environment inside server directory..."
 python3 -m venv $VENV_DIR
 
 # Activate the virtual environment
