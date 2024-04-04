@@ -12,6 +12,6 @@
 
 ## Choose Python interpreter on VSCode
 
-- Press `Ctrl + Shift + P` and type `Python: Select Interpreter` and choose the one with `venv` in the path
+- Press `Ctrl/Command + Shift + P` and type `Python: Select Interpreter` and choose 'enter interpreter path' and select the python interpreter from the venv folder
 - windows: `./venv/Scripts/python.exe`
 - mac: `./venv/bin/python`
