@@ -40,3 +40,9 @@ class LogoutView(views.APIView):
     def post(self, request):
         request.auth.delete()
         return response.Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class DeleteUserView(views.APIView):
+    def post(self, request):
+        request.user.delete()
+        return response.Response(status=status.HTTP_204_NO_CONTENT)

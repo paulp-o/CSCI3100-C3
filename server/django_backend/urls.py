@@ -20,5 +20,6 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/', include('apps.authentication.urls')),
+    path('api/user_data/', include('apps.user_data.urls')),
     # If you have other app URL includes, add them here
 ]
