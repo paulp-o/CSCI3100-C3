@@ -8,7 +8,7 @@
 
 ### Mac:
 
-- run `chmod +x setup_venv.sh; ./setup_venv.sh` in terminal
+- run `chmod +x setup_venv.sh; ./setup_venv.sh` in terminal IN 'server' DIRECTORY, NOT THE ROOT DIRECTORY!
 
 _Important: If there are new dependencies added to the project, run the setup_venv script again to install the new dependencies._
 
