@@ -2,11 +2,11 @@ import pygame
 import Game
 import Button
 
-settingblock_blue = pygame.transform.scale(pygame.image.load('img/settingblock_blue.png'), (700, 150))
-settingblock_white = pygame.transform.scale(pygame.image.load('img/settingblock_white.png'), (700, 150))
-settingbutton_blue = pygame.transform.scale(pygame.image.load('img/settingbutton_blue.png'), (320, 60))
-settingbutton_white = pygame.transform.scale(pygame.image.load('img/settingbutton_white.png'), (320, 60))
-returnbutton = pygame.transform.scale(pygame.image.load('img/return.png'), (50, 50))
+settingblock_blue = pygame.transform.scale(pygame.image.load('Assets/Settings/settingblock_blue.png'), (700, 150))
+settingblock_white = pygame.transform.scale(pygame.image.load('Assets/Settings/settingblock_white.png'), (700, 150))
+settingbutton_blue = pygame.transform.scale(pygame.image.load('Assets/Settings/settingbutton_blue.png'), (320, 60))
+settingbutton_white = pygame.transform.scale(pygame.image.load('Assets/Settings/settingbutton_white.png'), (320, 60))
+returnbutton = pygame.transform.scale(pygame.image.load('Assets/Settings/return.png'), (50, 50))
 
 class Settings:
     def __init__(self, display, gameStateManager):
@@ -15,7 +15,7 @@ class Settings:
         title_font = pygame.font.Font(None, 50)
         text_font = pygame.font.Font(None, 35)
 
-        self.background = pygame.image.load('img/background.jpg')
+        self.background = pygame.image.load('Assets/Main Menu/background.jpg')
         self.text_setting = title_font.render('Setting', False, 'white')
 
         self.text_Audio = text_font.render('Audio', False, 'white')

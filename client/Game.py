@@ -31,7 +31,7 @@ class Game:
         game_arena = GameArena.GameArena(screen, gameStateManager)
 
         # play = Play(screen, gameStateManager)
-        bgm = pygame.mixer.Sound('sound/bgm.mp3')
+        bgm = pygame.mixer.Sound('Audio/bgm.mp3')
         bgm.set_volume(0.05)
 
         global states
