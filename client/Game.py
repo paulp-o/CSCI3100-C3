@@ -22,10 +22,10 @@ class Game:
         pygame.mixer.pre_init(44100, -16, 2, 512)
         mixer.init()
         pygame.init()
-        pygame.display.set_caption('Snake.io')
+        pygame.display.set_caption('customization')
 
         global gameStateManager
-        gameStateManager = GameStateManager.GameStateManager('customization')
+        gameStateManager = GameStateManager.GameStateManager('login')
         main = Main.Main(screen, gameStateManager)
         settings = Settings.Settings(screen, gameStateManager)
         customization = Customization.Customization(screen, gameStateManager)
@@ -58,9 +58,9 @@ class Game:
             clock.tick(60)
 
 
-if __name__ == '__main__':
-    Game.__init__()
-    Game.run()
+
+Game.__init__()
+Game.run()
 
 
 """
