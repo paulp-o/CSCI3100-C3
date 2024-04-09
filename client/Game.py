@@ -41,7 +41,8 @@ class Game:
         states = {'settings': settings,
                        'main': main,
                        'customization': customization,
-                       'game_arena': game_arena}
+                       'game_arena': game_arena,
+                       'login': login}
 
     @staticmethod
     def run():
