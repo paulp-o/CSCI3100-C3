@@ -19,10 +19,10 @@ class Main:
     def run(self):
         Game.screen.blit(self.background, (0, 0))
         Game.screen.blit(self.text_title, (200, 90))
-        if self.start_button.back():
+        if self.start_button.draw():
             self.start_button.action()
 
-        if self.tosetting_button.back():
+        if self.tosetting_button.draw():
             self.tosetting_button.action()
 
     def go_to_play(self):

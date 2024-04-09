@@ -57,7 +57,7 @@ class Settings:
         Game.screen.blit(self.text_Chinese, (170, 480))
         Game.screen.blit(self.text_English, (510, 480))
 
-        if self.return_button.back():
+        if self.return_button.draw():
             self.return_button.action()  # Call the action function on button click
 
     def return_to_main(self):
