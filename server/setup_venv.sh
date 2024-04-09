@@ -15,6 +15,12 @@ if ! command -v python3 &>/dev/null; then
     exit 1
 fi
 
+# check if the working directory is the server directory
+if [ "$(basename "$(pwd)")" != "server" ]; then
+    echo "Please run this script from the server directory."
+    exit 1
+fi
+
 # Create a virtual environment
 echo "Creating virtual environment inside server directory..."
 python3 -m venv $VENV_DIR
