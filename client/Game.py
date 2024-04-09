@@ -5,6 +5,7 @@ import Settings
 import GameStateManager
 import Customization
 import GameArena
+import Login
 from pygame import mixer
 
 SCREEN_WIDTH = 800
@@ -29,6 +30,8 @@ class Game:
         settings = Settings.Settings(screen, gameStateManager)
         customization = Customization.Customization(screen, gameStateManager)
         game_arena = GameArena.GameArena(screen, gameStateManager)
+        login = Login.Login(screen, gameStateManager)
+        
 
         # play = Play(screen, gameStateManager)
         bgm = pygame.mixer.Sound('Audio/bgm.mp3')
@@ -38,7 +41,8 @@ class Game:
         states = {'settings': settings,
                        'main': main,
                        'customization': customization,
-                       'game_arena': game_arena}
+                       'game_arena': game_arena,
+                       'login': login}
 
     @staticmethod
     def run():
