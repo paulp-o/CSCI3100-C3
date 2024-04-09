@@ -15,8 +15,8 @@ class Login:
 
         # Icon / Image
         
-        self.id_box = pygame.Rect(250,140,100,40)
-        self.pwd_box = pygame.Rect(250,190,100,40)
+        self.id_box = pygame.Rect(300,140,100,40)
+        self.pwd_box = pygame.Rect(300,190,100,40)
         self.color_active = pygame.Color('lightskyblue3')
         self.color_passive = pygame.Color('gray15')
         self.id_box_color = self.color_passive
@@ -33,8 +33,8 @@ class Login:
         
         # Text
         self.text_title = self.title_font.render('Login', False, 'white')
-        self.text_id = self.text_font.render('your id', False, 'white')
-        self.text_password = self.text_font.render('your password', False, 'white')
+        self.text_id = self.text_font.render('Enter your id', False, 'white')
+        self.text_password = self.text_font.render('Enter your password', False, 'white')
         self.text_guest = self.text_font.render('Play as a guest', False, 'white')
         self.text_login = self.text_font.render('login',False,'black')
         self.text_guest_login = self.text_font.render('guest login',False,'black')
@@ -137,6 +137,7 @@ class Login:
             Game.screen.blit(self.text_guest_login, self.text_guest_login_rect)
             
             self.id_box.w = max (100, self.text_input_id_surface.get_width() + 10)
+            self.pwd_box.w = max (100, self.text_input_pwd_surface.get_width() + 10)
 
             pygame.display.flip()
             self.clock.tick(60)    
