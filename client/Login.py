@@ -4,33 +4,47 @@ import Button
 
 button_blue = pygame.transform.scale(pygame.image.load('Assets/Settings/settingbutton_blue.png'), (320, 60))
 
+global base_font
+global user_id
+global user_password
+global id_rect
+global password_rect
+global color_active
+global color_passive
+global color_id
+global  color_password
+global active_id
+global active_password
 
-base_font = pygame.font.Font(None,32)
-user_id = ''
-user_password = ''
-id_rect = pygame.Rect(330, 90, 140, 32)
-password_rect = pygame.Rect(330, 130, 140, 32)
-
-color_active = pygame.Color("white")
-color_passive = pygame.Color("gray15")
-color_id = color_passive
-color_password = color_passive
-
-active_id = False
-active_password = False
 
 class Login:
     def __init__(self, display, gameStateManager):
         self.display = display
         self.gameStateManager = gameStateManager
         self.background = pygame.image.load('Assets/Main Menu/background.jpg')
-        title_font = pygame.font.Font(None, 120)  
         
+        title_font = pygame.font.Font(None, 120)  
+
         self.text_login = title_font.render('Login', False, 'white')
         
         self.text_verify = base_font.render('Register', False, 'white')
         self.verify_button = Button.Button(330, 180, button_blue, 1, self.try_login)
         
+        base_font = pygame.font.Font(None,32)
+        user_id = ''
+        user_password = ''
+        id_rect = pygame.Rect(330, 90, 140, 32)
+        password_rect = pygame.Rect(330, 130, 140, 32)
+
+        color_active = pygame.Color("white")
+        color_passive = pygame.Color("gray15")
+        color_id = color_passive
+        color_password = color_passive
+
+        active_id = False
+        active_password = False
+             
+                
     def run(self):
          
         Game.screen.blit(self.background, (0, 0))

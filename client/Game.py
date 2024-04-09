@@ -22,7 +22,7 @@ class Game:
         pygame.mixer.pre_init(44100, -16, 2, 512)
         mixer.init()
         pygame.init()
-        pygame.display.set_caption('Snake.io')
+        pygame.display.set_caption('login')
 
         global gameStateManager
         gameStateManager = GameStateManager.GameStateManager('customization')
