@@ -7,6 +7,7 @@ import Customization
 import GameArena
 import Login
 import Leaderboard
+import Button
 import Register
 from pygame import mixer
 
@@ -18,6 +19,7 @@ states = None
 gameStateManager = None
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 music_on = True
+SFX_on = True
 
 
 class Game:
@@ -30,7 +32,7 @@ class Game:
         global gameStateManager
         gameStateManager = GameStateManager.GameStateManager('login')
         main = Main.Main(screen, gameStateManager)
-        settings = Settings.Settings(screen, gameStateManager, music_on)
+        settings = Settings.Settings(screen, gameStateManager, music_on, SFX_on)
         customization = Customization.Customization(screen, gameStateManager)
         game_arena = GameArena.GameArena(screen, gameStateManager)
         login = Login.Login(screen, gameStateManager)
@@ -39,6 +41,8 @@ class Game:
         
         noBgm = no_bgm(gameStateManager)
         yesBgm = yes_bgm(gameStateManager)
+        noSFX = no_SFX(gameStateManager)
+        yesSFX = yes_SFX(gameStateManager)
 
 
 
@@ -50,6 +54,8 @@ class Game:
                   'login': login,
                   'no_bgm': noBgm,
                   'yes_bgm': yesBgm,
+                  'no_SFX': noSFX,
+                  'yes_SFX': yesSFX,
                   'leaderboard': leaderboard,
                   'register': register
                   }
@@ -83,6 +89,21 @@ class yes_bgm:
         self.gameStateManager = gameStateManager
     def run(self):
         Game.bgm.set_volume(0.01)
+        self.gameStateManager.set_state('settings')
+
+class no_SFX:
+    def __init__(self, gameStateManager):
+        self.gameStateManager = gameStateManager
+    def run(self):
+        Settings.sfxvol = 0
+        self.gameStateManager.set_state('settings')
+
+
+class yes_SFX:
+    def __init__(self,gameStateManager):
+        self.gameStateManager = gameStateManager
+    def run(self):
+        Settings.sfxvol= 0.01
         self.gameStateManager.set_state('settings')
 
 

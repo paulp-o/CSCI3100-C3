@@ -7,12 +7,15 @@ settingblock_white = pygame.transform.scale(pygame.image.load('Assets/Settings/s
 settingbutton_blue = pygame.transform.scale(pygame.image.load('Assets/Settings/settingbutton_blue.png'), (320, 60))
 settingbutton_white = pygame.transform.scale(pygame.image.load('Assets/Settings/settingbutton_white.png'), (320, 60))
 returnbutton = pygame.transform.scale(pygame.image.load('Assets/Settings/return.png'), (50, 50))
+global sfxvol
+sfxvol = 0.01
 
 class Settings:
-    def __init__(self, display, gameStateManager, music_on):
+    def __init__(self, display, gameStateManager, music_on, SFX_on):
         self.display = display
         self.gameStateManager = gameStateManager
         self.music_on = music_on
+        self.SFX_on = SFX_on
         title_font = pygame.font.Font(None, 50)
         text_font = pygame.font.Font(None, 35)
 
@@ -102,7 +105,20 @@ class Settings:
         x = x - 1
 
     def toggle_SFX(self):
-        pass
+        x = 0
+        if self.SFX_on:
+            self.SFX_on = False
+            self.gameStateManager.set_state('no_SFX')
+            print('ff')
+            pygame.time.delay(100)
+
+        elif not self.SFX_on and x == 0:
+            self.SFX_on = True
+            self.gameStateManager.set_state('yes_SFX')
+            print('tt')
+            pygame.time.delay(100)
+            x = x + 1
+        x = x - 1      
 
     def toggle_mouse(self):
         pass
