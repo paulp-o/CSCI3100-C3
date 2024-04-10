@@ -4,8 +4,10 @@ import Game
 import math
 
 """ 
-This is the customization page of the game. 
-Snake body is stored in the self.snake in SnakeDemo class. 
+    This is the customization page of the game. 
+    Snake body is stored in the ${self.snake} in SnakeDemo class. 
+    Snake color is stored in ${selected_color} as a tuple (R, G, B)
+    Snake pattern is stored in ${self.snake.mode}; 0 is alternating; 1 is static; 2 is outline
 """
 
 class Color:
@@ -15,9 +17,7 @@ class Color:
 
 
 g_display = None
-selected_color_1 = Color.WHITE    # default color is white
-# selected_color_2 = Color.BLACK    # for alternating color
-# maximum_color_choice = 1  # number of colors the player can use
+selected_color = Color.WHITE    # default color is white
 
 class SnakeDemo:
     class SnakeHead:
@@ -28,7 +28,7 @@ class SnakeDemo:
             self.width = width
 
         def draw(self):
-            self.snake_head = pygame.draw.circle(g_display, selected_color_1, self.pos, self.radius, self.width)
+            self.snake_head = pygame.draw.circle(g_display, selected_color, self.pos, self.radius, self.width)
             # self.snake_left_eye = pygame.draw.circle(g_display, (0, 0, 0), self.pos, self.radius-15, self.width)
 
     class SnakeBody:
@@ -66,13 +66,13 @@ class SnakeDemo:
             # ---- Check for mode of rendering ----
             if self.mode == self.mode_list.index("alternating"):
                 if idx % 2 == 0:
-                    self.snake.append(self.SnakeBody(new_pos, (255-selected_color_1[0], 255-selected_color_1[1], 255-selected_color_1[2]), 0))
+                    self.snake.append(self.SnakeBody(new_pos, (255 - selected_color[0], 255 - selected_color[1], 255 - selected_color[2]), 0))
                 else:
-                    self.snake.append(self.SnakeBody(new_pos, selected_color_1, 0))
+                    self.snake.append(self.SnakeBody(new_pos, selected_color, 0))
             elif self.mode == self.mode_list.index("static"):
-                self.snake.append(self.SnakeBody(new_pos, selected_color_1, 0))
+                self.snake.append(self.SnakeBody(new_pos, selected_color, 0))
             elif self.mode == self.mode_list.index("outline"):
-                self.snake.append(self.SnakeBody(new_pos, selected_color_1, 5))
+                self.snake.append(self.SnakeBody(new_pos, selected_color, 5))
 
     def draw(self):
         for idx in range(0, self.length):
@@ -166,37 +166,34 @@ class Customization:
         self.back_button.action = lambda: self.gameStateManager.set_state('main')  # go back to main menu
 
         # ---- SHAPES ----
-        global selected_color_1
-        selected_color_1 = Color.BLACK
+        global selected_color
+        selected_color = Color.BLACK
         self.snake = SnakeDemo(0)
 
     def on_color_selection_black_click(self):
         # Action: the black color selection button is clicked
-        global selected_color_1
-
+        global selected_color
         self.color_selection_white_button.selected = False
         self.color_selection_lblue_button.selected = False
-        selected_color_1 = Color.BLACK
+        selected_color = Color.BLACK
         self.reset(self.snake.mode)
 
 
     def on_color_selection_white_click(self):
         # Action: the white color selection button is clicked
-        global selected_color_1
-
+        global selected_color
         self.color_selection_black_button.selected = False
         self.color_selection_lblue_button.selected = False
-        selected_color_1 = Color.WHITE
+        selected_color = Color.WHITE
 
         self.reset(self.snake.mode)
 
     def on_color_selection_lblue_click(self):
         # Action: the light blue color selection button is clicked
-        global selected_color_1
-
+        global selected_color
         self.color_selection_black_button.selected = False
         self.color_selection_white_button.selected = False
-        selected_color_1 = Color.LIGHT_BLUE
+        selected_color = Color.LIGHT_BLUE
 
         self.reset(self.snake.mode)
 
@@ -205,20 +202,8 @@ class Customization:
         # Action: the alternating_button is clicked
         self.pattern_static_button.selected = False
         self.pattern_outline_button.selected = False
-        self.color_selection_lblue_button.selected = False
-        self.color_selection_black_button.selected = False
-        self.color_selection_white_button.selected = False
         self.reset(0)
         global maximum_color_choice
-        # maximum_color_choice = 1
-        """
-        if selected_color_1 == Color.BLACK:
-            self.color_selection_black_button.selected = True
-        if selected_color_1 == Color.WHITE:
-            self.color_selection_white_button.selected = True
-        if selected_color_1 == Color.LIGHT_BLUE:
-            self.color_selection_lblue_button.selected = True
-        """
 
         print("Clicked Alternating Button")
 

@@ -26,7 +26,7 @@ class Game:
         pygame.display.set_caption('customization')
 
         global gameStateManager
-        gameStateManager = GameStateManager.GameStateManager('login')
+        gameStateManager = GameStateManager.GameStateManager('main')
         main = Main.Main(screen, gameStateManager)
         settings = Settings.Settings(screen, gameStateManager, music_on)
         customization = Customization.Customization(screen, gameStateManager)
@@ -82,24 +82,3 @@ class yes_bgm:
 if __name__ == '__main__':
     game = Game()
     game.run()
-
-
-"""
-class Play:
-    def __init__(self, display, gameStateManager):
-        self.display = display
-        self.gameStateManager = gameStateManager
-        self.background = pygame.image.load('img/background.jpg')
-        title_font = pygame.font.Font(None, 120)
-        text_font = pygame.font.Font(None, 35)
-        self.return_button = Button(675, 30, returnbutton, 1, self.return_to_main)
-
-    def run(self):
-        Game.screen.blit(self.background, (0, 0))
-        if self.return_button.back():
-            self.return_button.action()
-
-    def return_to_main(self):
-        self.gameStateManager.set_state('main')
-
-"""
