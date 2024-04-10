@@ -16,6 +16,7 @@ class Leaderboard:
         self.color_rank_2 =pygame.Color('silver')
         self.color_rank_3 =pygame.Color('copper')
         self.color_rank_rest =pygame.Color('gray')
+        self.color_user =pygame.Color('white')
         
         # rect for ranking
         self.rect_rank_1 = pygame.Rect(50,100,40,40)
@@ -28,6 +29,7 @@ class Leaderboard:
         self.rect_rank_8 = pygame.Rect(50,450,40,40)
         self.rect_rank_9 = pygame.Rect(50,500,40,40)
         self.rect_rank_10 = pygame.Rect(50,550,40,40)
+        self.rect_rank_user = pygame.Rect(50,600,40,40)
         
         # rect for username
         self.rect_id_1 = pygame.Rect(100,100,100,40)
@@ -40,6 +42,7 @@ class Leaderboard:
         self.rect_id_8 = pygame.Rect(100,450,100,40)
         self.rect_id_9 = pygame.Rect(100,500,100,40)
         self.rect_id_10 = pygame.Rect(100,550,100,40)
+        self.rect_id_user = pygame.Rect(100,600,100,40)
         
         # rect for score
         self.rect_score_1 = pygame.Rect(210,100,70,40)
@@ -52,7 +55,7 @@ class Leaderboard:
         self.rect_score_8 = pygame.Rect(210,450,70,40)
         self.rect_score_9 = pygame.Rect(210,500,70,40)
         self.rect_score_10 = pygame.Rect(210,550,70,40)
-        
+        self.rect_score_user = pygame.Rect(210,600,70,40)
         
         
         # Button
@@ -91,6 +94,9 @@ class Leaderboard:
         self.text_rank_10 = text_font.render('10', False, 'white')        
         self.text_rank_10_rect = self.text_rank_10.get_rect()
         self.text_rank_10_rect.center = self.rect_rank_10.center
+        self.text_rank_user = text_font.render('User', False, 'black')        
+        self.text_rank_user_rect = self.text_rank_user.get_rect()
+        self.text_rank_user_rect.center = self.rect_rank_user.center
         
         
         # Button action
@@ -113,6 +119,33 @@ class Leaderboard:
         pygame.draw.rect(Game.screen, self.color_rank_rest, self.rect_rank_8)
         pygame.draw.rect(Game.screen, self.color_rank_rest, self.rect_rank_9)
         pygame.draw.rect(Game.screen, self.color_rank_rest, self.rect_rank_10)
+        pygame.draw.rect(Game.screen, self.color_user, self.rect_rank_user)
+        
+        # draw id box
+        pygame.draw.rect(Game.screen, self.color_rank_1, self.rect_id_1)
+        pygame.draw.rect(Game.screen, self.color_rank_2, self.rect_id_2)
+        pygame.draw.rect(Game.screen, self.color_rank_3, self.rect_id_3)
+        pygame.draw.rect(Game.screen, self.color_rank_rest, self.rect_id_4)
+        pygame.draw.rect(Game.screen, self.color_rank_rest, self.rect_id_5)
+        pygame.draw.rect(Game.screen, self.color_rank_rest, self.rect_id_6)
+        pygame.draw.rect(Game.screen, self.color_rank_rest, self.rect_id_7)
+        pygame.draw.rect(Game.screen, self.color_rank_rest, self.rect_id_8)
+        pygame.draw.rect(Game.screen, self.color_rank_rest, self.rect_id_9)
+        pygame.draw.rect(Game.screen, self.color_rank_rest, self.rect_id_10)
+        pygame.draw.rect(Game.screen, self.color_user, self.rect_id_user)
+        
+        # draw score box
+        pygame.draw.rect(Game.screen, self.color_rank_1, self.rect_score_1)
+        pygame.draw.rect(Game.screen, self.color_rank_2, self.rect_score_2)
+        pygame.draw.rect(Game.screen, self.color_rank_3, self.rect_score_3)
+        pygame.draw.rect(Game.screen, self.color_rank_rest, self.rect_score_4)
+        pygame.draw.rect(Game.screen, self.color_rank_rest, self.rect_score_5)
+        pygame.draw.rect(Game.screen, self.color_rank_rest, self.rect_score_6)
+        pygame.draw.rect(Game.screen, self.color_rank_rest, self.rect_score_7)
+        pygame.draw.rect(Game.screen, self.color_rank_rest, self.rect_score_8)
+        pygame.draw.rect(Game.screen, self.color_rank_rest, self.rect_score_9)
+        pygame.draw.rect(Game.screen, self.color_rank_rest, self.rect_score_10)
+        pygame.draw.rect(Game.screen, self.color_user, self.rect_score_user)
         
         # draw rank num in rank box
         Game.screen.blit(self.text_rank_1, self.text_rank_1_rect)
@@ -125,3 +158,4 @@ class Leaderboard:
         Game.screen.blit(self.text_rank_8, self.text_rank_8_rect)
         Game.screen.blit(self.text_rank_9, self.text_rank_9_rect)
         Game.screen.blit(self.text_rank_10, self.text_rank_10_rect)
+        Game.screen.blit(self.text_rank_user, self.text_rank_user_rect)
