@@ -17,6 +17,7 @@ gameStateManager = None
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 music_on = True
 
+
 class Game:
     def __init__(self):
         pygame.mixer.pre_init(44100, -16, 2, 512)
@@ -31,7 +32,6 @@ class Game:
         customization = Customization.Customization(screen, gameStateManager)
         game_arena = GameArena.GameArena(screen, gameStateManager)
         login = Login.Login(screen, gameStateManager)
-        
 
         # play = Play(screen, gameStateManager)
         bgm = pygame.mixer.Sound('Audio/bgm.mp3')
@@ -39,10 +39,10 @@ class Game:
 
         global states
         states = {'settings': settings,
-                       'main': main,
-                       'customization': customization,
-                       'game_arena': game_arena,
-                       'login': login}
+                  'main': main,
+                  'customization': customization,
+                  'game_arena': game_arena,
+                  'login': login}
 
     @staticmethod
     def run():
@@ -57,9 +57,9 @@ class Game:
             clock.tick(60)
 
 
-
-Game.__init__()
-Game.run()
+if __name__ == '__main__':
+    game = Game()
+    game.run()
 
 
 """
