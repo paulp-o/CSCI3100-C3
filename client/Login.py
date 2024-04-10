@@ -54,8 +54,6 @@ class Login:
                 
     def run(self):
 
-        
-        # id / password box
         while self.loop:
             
             Game.screen.fill((200, 200, 180))
