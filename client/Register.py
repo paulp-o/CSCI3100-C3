@@ -180,7 +180,13 @@ class Register:
         h = {}
         d = {'username': self.text_input_id, 'password': self.text_input_pwd}
         res = requests.post(url, json=d, headers=h )
-        if "username" in res.json():
-            return True
-        else:
+        try:
+            if "username" in res.json():
+                return True
+            else:
+                return False
+        except ValueError:
+            # Handle the case when the response is not valid JSON
             return False
+        
+        
