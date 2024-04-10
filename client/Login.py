@@ -15,7 +15,6 @@ class Login:
         self.title_font = pygame.font.Font(None, 60)  
 
         # Icon / Image
-        
         self.id_box = pygame.Rect(300,140,100,40)
         self.pwd_box = pygame.Rect(300,190,100,40)
         self.color_active = pygame.Color('lightskyblue3')

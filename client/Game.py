@@ -7,6 +7,7 @@ import Customization
 import GameArena
 import Login
 import Leaderboard
+import Register
 from pygame import mixer
 
 SCREEN_WIDTH = 800
@@ -34,6 +35,7 @@ class Game:
         game_arena = GameArena.GameArena(screen, gameStateManager)
         login = Login.Login(screen, gameStateManager)
         leaderboard = Leaderboard.Leaderboard(screen, gameStateManager)
+        register = Register.Register(screen, gameStateManager)
         
         noBgm = no_bgm(gameStateManager)
         yesBgm = yes_bgm(gameStateManager)
@@ -48,7 +50,8 @@ class Game:
                   'login': login,
                   'no_bgm': noBgm,
                   'yes_bgm': yesBgm,
-                  'leaderboard': leaderboard
+                  'leaderboard': leaderboard,
+                  'register': register
                   }
 
         Game.bgm = pygame.mixer.Sound('Audio/bgm.mp3')
