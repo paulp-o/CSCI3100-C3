@@ -58,30 +58,30 @@ class Register:
         
     def run(self):
         
+        Game.screen.fill((200, 200, 180))
+            
+        # Text
+        Game.screen.blit(self.text_title, (50,50))
+        Game.screen.blit(self.text_id, (50, 150))
+        Game.screen.blit(self.text_pwd, (50,200))
+        Game.screen.blit(self.text_confirm_pwd, (50,250))
+        Game.screen.blit(self.text_back_to_login, (50, 400))
+        
+        # Button
+        
+        pygame.draw.rect(Game.screen,self.id_box_color,self.id_box)
+        pygame.draw.rect(Game.screen,self.pwd_box_color,self.pwd_box)
+        pygame.draw.rect(Game.screen,self.confirm_pwd_box_color,self.confirm_pwd_box)
+        pygame.draw.rect(Game.screen,self.register_box_color,self.register_box)
+        pygame.draw.rect(Game.screen,self.back_to_login_box_color,self.back_to_login_box)
+        
+        Game.screen.blit(self.text_input_id_surface, (self.id_box.x+5, self.id_box.y+5))
+        Game.screen.blit(self.text_input_pwd_surface, (self.pwd_box.x+5, self.pwd_box.y+5))
+        Game.screen.blit(self.text_input_confirm_pwd_surface, (self.confirm_pwd_box.x+5, self.confirm_pwd_box.y+5))
+        Game.screen.blit(self.text_register, self.text_register_rect)
+        Game.screen.blit(self.text_back_to_login, self.text_back_to_login_rect)
+            
         while self.loop:
-            
-            Game.screen.fill((200, 200, 180))
-            
-            # Text
-            Game.screen.blit(self.text_title, (50,50))
-            Game.screen.blit(self.text_id, (50, 150))
-            Game.screen.blit(self.text_pwd, (50,200))
-            Game.screen.blit(self.text_confirm_pwd, (50,250))
-            Game.screen.blit(self.text_back_to_login, (50, 400))
-            
-            # Button
-            
-            pygame.draw.rect(Game.screen,self.id_box_color,self.id_box)
-            pygame.draw.rect(Game.screen,self.pwd_box_color,self.pwd_box)
-            pygame.draw.rect(Game.screen,self.confirm_pwd_box_color,self.confirm_pwd_box)
-            pygame.draw.rect(Game.screen,self.register_box_color,self.register_box)
-            pygame.draw.rect(Game.screen,self.back_to_login_box_color,self.back_to_login_box)
-            
-            Game.screen.blit(self.text_input_id_surface, (self.id_box.x+5, self.id_box.y+5))
-            Game.screen.blit(self.text_input_pwd_surface, (self.pwd_box.x+5, self.pwd_box.y+5))
-            Game.screen.blit(self.text_input_confirm_pwd_surface, (self.confirm_pwd_box.x+5, self.confirm_pwd_box.y+5))
-            Game.screen.blit(self.text_register, self.text_register_rect)
-            Game.screen.blit(self.text_back_to_login, self.text_back_to_login_rect)
             
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

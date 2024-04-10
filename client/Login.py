@@ -59,32 +59,30 @@ class Login:
         
                 
     def run(self):
-
-        while self.loop:
-            
-            Game.screen.fill((200, 200, 180))
+        Game.screen.fill((200, 200, 180))
         
-            # Text
-            Game.screen.blit(self.text_title, (50,50))
-            Game.screen.blit(self.text_id, (50, 150))
-            Game.screen.blit(self.text_password, (50,200))
-            Game.screen.blit(self.text_guest, (50,360))
+        # Text
+        Game.screen.blit(self.text_title, (50,50))
+        Game.screen.blit(self.text_id, (50, 150))
+        Game.screen.blit(self.text_password, (50,200))
+        Game.screen.blit(self.text_guest, (50,360))
             
             
-            # Button
+        # Button
 
-            pygame.draw.rect(Game.screen,self.id_box_color,self.id_box)
-            pygame.draw.rect(Game.screen,self.pwd_box_color,self.pwd_box)
-            pygame.draw.rect(Game.screen,self.login_box_color,self.login_box)
-            pygame.draw.rect(Game.screen,self.guest_login_box_color,self.guest_login_box)
-            pygame.draw.rect(Game.screen,self.register_box_color,self.register_box)
+        pygame.draw.rect(Game.screen,self.id_box_color,self.id_box)
+        pygame.draw.rect(Game.screen,self.pwd_box_color,self.pwd_box)
+        pygame.draw.rect(Game.screen,self.login_box_color,self.login_box)
+        pygame.draw.rect(Game.screen,self.guest_login_box_color,self.guest_login_box)
+        pygame.draw.rect(Game.screen,self.register_box_color,self.register_box)
             
-            Game.screen.blit(self.text_input_id_surface, (self.id_box.x+5,self.id_box.y+5))
-            Game.screen.blit(self.text_input_pwd_surface, (self.pwd_box.x+5,self.pwd_box.y+5))
-            Game.screen.blit(self.text_login, self.text_login_rect)
-            Game.screen.blit(self.text_guest_login, self.text_guest_login_rect)
-            Game.screen.blit(self.text_register, self.text_register_rect)
-            
+        Game.screen.blit(self.text_input_id_surface, (self.id_box.x+5,self.id_box.y+5))
+        Game.screen.blit(self.text_input_pwd_surface, (self.pwd_box.x+5,self.pwd_box.y+5))
+        Game.screen.blit(self.text_login, self.text_login_rect)
+        Game.screen.blit(self.text_guest_login, self.text_guest_login_rect)
+        Game.screen.blit(self.text_register, self.text_register_rect)
+        while self.loop:
+             
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()

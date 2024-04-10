@@ -47,7 +47,7 @@ class Main:
             self.exit_button.action()
 
     def go_to_play(self):
-        self.gameStateManager.set_state('game_arena')
+        self.gameStateManager.set_state('start_game')
 
     def to_setting(self):
         self.gameStateManager.set_state('settings')
