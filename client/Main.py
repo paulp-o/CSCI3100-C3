@@ -15,7 +15,7 @@ class Main:
         self.display = display
         self.gameStateManager = gameStateManager
         self.background = pygame.image.load('Assets/Main Menu/background.jpg')
-        title_font = pygame.font.Font(None, 120)
+        title_font = pygame.font.SysFont("comicsansms", 120)
         text_font = pygame.font.Font(None, 35)
         self.text_en_title = title_font.render('Snake.io', False, 'white')
         self.text_ch_title = title_font.render('chinese Snake.io', False, 'white')
