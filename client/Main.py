@@ -63,4 +63,5 @@ class Main:
         self.gameStateManager.set_state('leaderboard')
 
     def exit(self):
-        self.gameStateManager.set_state('login')
+        pygame.quit()
+        sys.exit()
