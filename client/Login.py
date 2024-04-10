@@ -11,8 +11,8 @@ class Login:
         
         self.display = display
         self.gameStateManager = gameStateManager
-        self.text_font = pygame.font.Font(None,32)
-        self.title_font = pygame.font.Font(None, 60)  
+        self.text_font = pygame.font.SysFont("comicsansms",22)
+        self.title_font = pygame.font.SysFont("comicsansms", 40)  
 
         # Icon / Image
         self.id_box = pygame.Rect(300,140,100,40)
@@ -61,6 +61,7 @@ class Login:
     def run(self):
         self.loop = True
         Game.screen.fill((200, 200, 180))
+        self.draw_check_pattern()
         
         # Text
         Game.screen.blit(self.text_title, (50,50))
@@ -177,4 +178,11 @@ class Login:
     def try_guest_login(self):
         self.gameStateManager.set_state('main') # go to main menu
         
-       
+    def draw_check_pattern(self):
+        # Draw a check pattern with green and red colors
+        for x in range(0, Game.SCREEN_WIDTH, 70):
+            for y in range(0, Game.SCREEN_HEIGHT, 70):
+                if (x // 70) % 2 == (y // 70) % 2:
+                    pygame.draw.rect(Game.screen, '#eff2d8' , (x, y, 70, 70))
+                else:
+                    pygame.draw.rect(Game.screen, '#e4ebb2', (x, y, 70, 70))
