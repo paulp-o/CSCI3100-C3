@@ -61,10 +61,12 @@ class Register:
         
         
     def run(self):
-        
         Game.screen.fill((200, 200, 180))
+        
+        # bug: cannot click back button
         self.draw_check_pattern()
         self.back_button.draw()
+
         self.snake_icon.set_colorkey((255, 255, 255))
         Game.screen.blit(self.snake_icon, ((Game.SCREEN_WIDTH)/2, (Game.SCREEN_HEIGHT)/2-100))
         
@@ -85,7 +87,7 @@ class Register:
         Game.screen.blit(self.text_input_pwd_surface, (self.pwd_box.x+5, self.pwd_box.y+5))
         Game.screen.blit(self.text_input_confirm_pwd_surface, (self.confirm_pwd_box.x+5, self.confirm_pwd_box.y+5))
         Game.screen.blit(self.text_register, self.text_register_rect)
-            
+        self.loop = True
         while self.loop:
             
             for event in pygame.event.get():
