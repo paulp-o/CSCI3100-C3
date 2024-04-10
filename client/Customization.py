@@ -62,7 +62,7 @@ class SnakeDemo:
         for idx in range(0, self.length):
             new_pos = (self.snake[idx].pos[0],
                        math.sin(math.sin((360 / self.length) * idx)) * 360 / self.length + self.snake[0].pos[1])
-            print(new_pos)
+            # print(new_pos)
             # ---- Check for mode of rendering ----
             if self.mode == self.mode_list.index("alternating"):
                 if idx % 2 == 0:

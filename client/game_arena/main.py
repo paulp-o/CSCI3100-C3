@@ -276,7 +276,7 @@ while running:
     pygame.time.Clock().tick(60)
 
     # print snake position
-    print(snake_body[0])
+    # print(snake_body[0])
 
 # Quit the game
 pygame.quit()
