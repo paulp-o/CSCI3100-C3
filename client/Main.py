@@ -1,6 +1,7 @@
 import pygame
 import Game
 import Button
+import sys
 
 startbutton = pygame.image.load('Assets/Main Menu/start_btn.png')
 tosettingbutton = pygame.image.load('Assets/Main Menu/setting_icon.png')
