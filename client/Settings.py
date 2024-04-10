@@ -9,10 +9,10 @@ settingbutton_white = pygame.transform.scale(pygame.image.load('Assets/Settings/
 returnbutton = pygame.transform.scale(pygame.image.load('Assets/Settings/return.png'), (50, 50))
 
 class Settings:
-    def __init__(self, display, gameStateManager, bgm_channel):
+    def __init__(self, display, gameStateManager, music_on):
         self.display = display
         self.gameStateManager = gameStateManager
-        self.bgm_channel = bgm_channel
+        self.music_on = music_on
         title_font = pygame.font.Font(None, 50)
         text_font = pygame.font.Font(None, 35)
 
@@ -31,26 +31,24 @@ class Settings:
         self.text_Chinese = text_font.render('Chinese', False, 'white')
         self.text_English = text_font.render('English', False, 'white')
 
-        self.music_on = True  # Variable to track the music state
-
     def run(self):
-        Game.screen.blit(self.background, (0, 0))
-        Game.screen.blit(self.text_setting, (330, 30))
-        Game.screen.blit(settingblock_white, (30, 50))
-        Game.screen.blit(settingblock_blue, (30, 220))
-        Game.screen.blit(settingblock_white, (30, 390))
+        self.display.blit(self.background, (0, 0))
+        self.display.blit(self.text_setting, (330, 30))
+        self.display.blit(settingblock_white, (30, 50))
+        self.display.blit(settingblock_blue, (30, 220))
+        self.display.blit(settingblock_white, (30, 390))
 
-        Game.screen.blit(self.text_Audio, (115, 75))
-        Game.screen.blit(self.text_Music, (175, 145))
-        Game.screen.blit(self.text_SFX, (525, 145))
+        self.display.blit(self.text_Audio, (115, 75))
+        self.display.blit(self.text_Music, (175, 145))
+        self.display.blit(self.text_SFX, (525, 145))
 
-        Game.screen.blit(self.text_GameControl, (70, 240))
-        Game.screen.blit(self.text_Mouse, (170, 310))
-        Game.screen.blit(self.text_Keyboard, (510, 310))
+        self.display.blit(self.text_GameControl, (70, 240))
+        self.display.blit(self.text_Mouse, (170, 310))
+        self.display.blit(self.text_Keyboard, (510, 310))
 
-        Game.screen.blit(self.text_Language, (80, 410))
-        Game.screen.blit(self.text_Chinese, (170, 480))
-        Game.screen.blit(self.text_English, (510, 480))
+        self.display.blit(self.text_Language, (80, 410))
+        self.display.blit(self.text_Chinese, (170, 480))
+        self.display.blit(self.text_English, (510, 480))
 
         self.return_button = Button.Button(675, 30, returnbutton, 1, self.return_to_main)
         self.music_button = Button.Button(50, 125, settingbutton_blue, 1, self.toggle_music)
@@ -59,15 +57,23 @@ class Settings:
             self.return_button.action()
 
         if self.music_button.back():
-            self.music_button.action()
+            pass
 
     def return_to_main(self):
         self.gameStateManager.set_state('main')
 
     def toggle_music(self):
+        x = 0
         if self.music_on:
-            Game.bgm_channel.pause()
             self.music_on = False
-        else:
-            Game.bgm_channel.unpause()
+            self.gameStateManager.set_state('no_bgm')
+            print('f')
+            
+            pygame.time.delay(100)
+        elif not self.music_on and x == 0:
             self.music_on = True
+            self.gameStateManager.set_state('yes_bgm')
+            print('t')
+            pygame.time.delay(100)
+            x = x + 1
+        x = x - 1
