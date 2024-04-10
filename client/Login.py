@@ -15,6 +15,8 @@ class Login:
         self.title_font = pygame.font.SysFont("comicsansms", 40)  
 
         # Icon / Image
+        self.snake_icon = pygame.image.load("Assets/Login/snake.png").convert_alpha()
+        
         self.id_box = pygame.Rect(300,140,100,40)
         self.pwd_box = pygame.Rect(300,190,100,40)
         self.color_active = pygame.Color('lightskyblue3')
@@ -62,6 +64,8 @@ class Login:
         self.loop = True
         Game.screen.fill((200, 200, 180))
         self.draw_check_pattern()
+        self.snake_icon.set_colorkey((255, 255, 255))
+        Game.screen.blit(self.snake_icon, ((Game.SCREEN_WIDTH)/2, (Game.SCREEN_HEIGHT)/2-100))
         
         # Text
         Game.screen.blit(self.text_title, (50,50))
