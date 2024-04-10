@@ -8,6 +8,7 @@ import GameArena
 import Login
 import Leaderboard
 import Button
+import Register
 from pygame import mixer
 
 SCREEN_WIDTH = 800
@@ -29,13 +30,14 @@ class Game:
         pygame.display.set_caption('Snake.io')
 
         global gameStateManager
-        gameStateManager = GameStateManager.GameStateManager('leaderboard')
+        gameStateManager = GameStateManager.GameStateManager('login')
         main = Main.Main(screen, gameStateManager)
         settings = Settings.Settings(screen, gameStateManager, music_on, SFX_on)
         customization = Customization.Customization(screen, gameStateManager)
         game_arena = GameArena.GameArena(screen, gameStateManager)
         login = Login.Login(screen, gameStateManager)
         leaderboard = Leaderboard.Leaderboard(screen, gameStateManager)
+        register = Register.Register(screen, gameStateManager)
         
         noBgm = no_bgm(gameStateManager)
         yesBgm = yes_bgm(gameStateManager)
@@ -54,7 +56,8 @@ class Game:
                   'yes_bgm': yesBgm,
                   'no_SFX': noSFX,
                   'yes_SFX': yesSFX,
-                  'leaderboard': leaderboard
+                  'leaderboard': leaderboard,
+                  'register': register
                   }
 
         Game.bgm = pygame.mixer.Sound('Audio/bgm.mp3')

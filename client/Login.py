@@ -15,7 +15,6 @@ class Login:
         self.title_font = pygame.font.Font(None, 60)  
 
         # Icon / Image
-        
         self.id_box = pygame.Rect(300,140,100,40)
         self.pwd_box = pygame.Rect(300,190,100,40)
         self.color_active = pygame.Color('lightskyblue3')
@@ -27,7 +26,8 @@ class Login:
         self.login_box_color = 'white'
         self.guest_login_box = pygame.Rect(50,400,200,40)
         self.guest_login_box_color = 'white'
-        
+        self.register_box = pygame.Rect(50, 550, 200, 40)
+        self.register_box_color = 'white'
         
         self.id_active = False
         self.pwd_active = False
@@ -39,11 +39,15 @@ class Login:
         self.text_guest = self.text_font.render('Play as a guest', False, 'white')
         self.text_login = self.text_font.render('login',False,'black')
         self.text_guest_login = self.text_font.render('guest login',False,'black')
+        self.text_register = self.text_font.render('register',False,'black')
         
         self.text_login_rect = self.text_login.get_rect()
         self.text_login_rect.center = self.login_box.center
         self.text_guest_login_rect = self.text_guest_login.get_rect()
         self.text_guest_login_rect.center = self.guest_login_box.center
+        self.text_register_rect = self.text_register.get_rect()
+        self.text_register_rect.center = self.register_box.center
+        
         
         self.text_input_id = ''
         self.text_input_pwd = ''
@@ -72,11 +76,13 @@ class Login:
             pygame.draw.rect(Game.screen,self.pwd_box_color,self.pwd_box)
             pygame.draw.rect(Game.screen,self.login_box_color,self.login_box)
             pygame.draw.rect(Game.screen,self.guest_login_box_color,self.guest_login_box)
+            pygame.draw.rect(Game.screen,self.register_box_color,self.register_box)
             
             Game.screen.blit(self.text_input_id_surface, (self.id_box.x+5,self.id_box.y+5))
             Game.screen.blit(self.text_input_pwd_surface, (self.pwd_box.x+5,self.pwd_box.y+5))
             Game.screen.blit(self.text_login, self.text_login_rect)
             Game.screen.blit(self.text_guest_login, self.text_guest_login_rect)
+            Game.screen.blit(self.text_register, self.text_register_rect)
             
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -101,6 +107,9 @@ class Login:
                             
                     elif self.guest_login_box.collidepoint(event.pos):
                         self.try_guest_login()
+                        self.loop = False
+                    elif self.register_box.collidepoint(event.pos):
+                        self.gameStateManager.set_state('register')
                         self.loop = False
                     else:
                         self.id_active = False
@@ -132,6 +141,7 @@ class Login:
             pygame.draw.rect(Game.screen,self.pwd_box_color,self.pwd_box)
             pygame.draw.rect(Game.screen,self.login_box_color,self.login_box)
             pygame.draw.rect(Game.screen,self.guest_login_box_color,self.guest_login_box)
+            pygame.draw.rect(Game.screen,self.register_box_color,self.register_box)
             
             self.text_input_id_surface = self.text_font.render(self.text_input_id, True, (255,255,255))
             self.text_input_pwd_surface = self.text_font.render(self.text_input_pwd, True, (255,255,255))
@@ -139,6 +149,7 @@ class Login:
             Game.screen.blit(self.text_input_pwd_surface, (self.pwd_box.x+5,self.pwd_box.y+5))
             Game.screen.blit(self.text_login, self.text_login_rect)
             Game.screen.blit(self.text_guest_login, self.text_guest_login_rect)
+            Game.screen.blit(self.text_register, self.text_register_rect)
             
             self.id_box.w = max (100, self.text_input_id_surface.get_width() + 10)
             self.pwd_box.w = max (100, self.text_input_pwd_surface.get_width() + 10)
@@ -151,15 +162,10 @@ class Login:
     def try_login(self):
         # need verify procedure
         url = 'http://{}/api/auth/login/'.format(domain)
-        h = {
-            
-        }
-        d = '{{"username": "{}", "password": "{}"}}'.format(self.text_input_id, self.text_input_pwd)
-        # convert to json
-        d = json.dumps(json.loads(d))
-        res = requests.post(url, headers=h, data=d).json()
-        print(res)
-        if "token" in res:
+        h = {}
+        d = {'username': self.text_input_id, 'password': self.text_input_pwd} # {'username': id, 'password': pwd}
+        res = requests.post(url, json=d, headers=h )
+        if "token" in res.json():
             return True
         else:
             return False
