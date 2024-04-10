@@ -11,17 +11,18 @@ class Register:
         
         self.display = display
         self.gameStateManager = gameStateManager
-        self.text_font = pygame.font.Font(None,32)
-        self.title_font = pygame.font.Font(None, 60) 
+        self.text_font = pygame.font.SysFont("comicsansms",22)
+        self.title_font = pygame.font.SysFont("comicsansms", 40) 
         
         # Icon / Image
         self.back_icon = pygame.image.load("Assets/Settings/return.png").convert_alpha()
+        self.snake_icon = pygame.image.load("Assets/Login/snake.png").convert_alpha()
         
         self.id_box = pygame.Rect(300,140,100,40)
         self.pwd_box = pygame.Rect(300,190,100,40)
         self.confirm_pwd_box = pygame.Rect(300,240,100,40)
         self.color_active = pygame.Color('lightskyblue3')
-        self.color_passive = pygame.Color('gray15')
+        self.color_passive = pygame.Color('#10c239')
         self.id_box_color = self.color_passive
         self.pwd_box_color = self.color_passive
         self.confirm_pwd_box_color = self.color_passive
@@ -40,11 +41,11 @@ class Register:
         self.back_button.action = lambda:   self.gameStateManager.set_state('login'); self.loop = False
         
         # Text
-        self.text_title = self.title_font.render('Register', False, 'white')
-        self.text_id = self.text_font.render('Enter your id', False, 'white')
-        self.text_pwd = self.text_font.render('Enter your password', False, 'white')
-        self.text_confirm_pwd = self.text_font.render('Confirm your password', False, 'white')
-        self.text_register = self.text_font.render('register', False, 'black')
+        self.text_title = self.title_font.render('Register', False, '#10c239')
+        self.text_id = self.text_font.render('Enter your id', False, '#10c239')
+        self.text_pwd = self.text_font.render('Enter your password', False, '#10c239')
+        self.text_confirm_pwd = self.text_font.render('Confirm your password', False, '#10c239')
+        self.text_register = self.text_font.render('register', False, '#10c239')
         
         # Text on functional buttons
         self.text_register_rect = self.text_register.get_rect()
@@ -62,7 +63,10 @@ class Register:
     def run(self):
         
         Game.screen.fill((200, 200, 180))
+        self.draw_check_pattern()
         self.back_button.draw()
+        self.snake_icon.set_colorkey((255, 255, 255))
+        Game.screen.blit(self.snake_icon, ((Game.SCREEN_WIDTH)/2, (Game.SCREEN_HEIGHT)/2-100))
         
         # Text
         Game.screen.blit(self.text_title, (50,50))
@@ -189,4 +193,12 @@ class Register:
             # Handle the case when the response is not valid JSON
             return False
         
-        
+    def draw_check_pattern(self):
+        # Draw a check pattern with green and red colors
+        for x in range(0, Game.SCREEN_WIDTH, 70):
+            for y in range(0, Game.SCREEN_HEIGHT, 70):
+                if (x // 70) % 2 == (y // 70) % 2:
+                    pygame.draw.rect(Game.screen, '#eff2d8' , (x, y, 70, 70))
+                else:
+                    pygame.draw.rect(Game.screen, '#e4ebb2', (x, y, 70, 70))
+                    
