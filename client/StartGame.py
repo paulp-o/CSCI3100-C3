@@ -1,13 +1,13 @@
 import pygame, sys, requests, json
 import Game
 import Button
+import game_arena
+import subprocess
 
 class StartGame:
     def __init__(self, display, gameStateManager):
         self.clock = pygame.time.Clock()
         self.loop = True
-        
-        self.background = pygame.image.load('Assets/Main Menu/background.jpg')
         
         self.display = display
         self.gameStateManager = gameStateManager
@@ -59,7 +59,7 @@ class StartGame:
 
     def run(self):
         
-        Game.screen.blit(self.background, (0, 0))
+        Game.screen.fill((200, 200, 180))
         self.back_button.draw()
         
         # Text
@@ -96,6 +96,7 @@ class StartGame:
                         self.port_active = True
                     elif self.join_box.collidepoint(event.pos):
                         # need to verify
+                        subprocess.call(['python', 'game_arena/main.py'])
                         self.gameStateManager.set_state('game_arena')
                         self.loop = False
                     elif self.host_box.collidepoint(event.pos):

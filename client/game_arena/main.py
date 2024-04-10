@@ -27,7 +27,7 @@ pygame.display.set_caption('Snake.io')
 
 # Load resources
 # Load your background image
-background = pygame.image.load('background_image.jpg').convert()
+background = pygame.image.load('game_arena/background_image.jpg').convert()
 background_rect = background.get_rect()
 
 
