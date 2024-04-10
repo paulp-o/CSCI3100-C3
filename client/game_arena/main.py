@@ -3,8 +3,6 @@ import sys
 import math
 import random
 
-# Initialize Pygame
-pygame.init()
 
 # Set the dimensions of the game window
 window_width = 800
