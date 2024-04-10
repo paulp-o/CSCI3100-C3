@@ -28,7 +28,7 @@ kb=False
 global chinese
 chinese = False
 global english
-english=True
+english= True
 
 class Game:
     def __init__(self):
