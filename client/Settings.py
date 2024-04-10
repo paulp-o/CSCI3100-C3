@@ -10,10 +10,15 @@ returnbutton = pygame.transform.scale(pygame.image.load('Assets/Settings/return.
 global sfxvol
 sfxvol = 0.01
 
+
 class Settings:
-    def __init__(self, display, gameStateManager, music_on, SFX_on):
+    def __init__(self, display, gameStateManager, music_on, SFX_on, mouse,kb, chinese,english):
         self.display = display
         self.gameStateManager = gameStateManager
+        self.mouse = mouse
+        self.kb = kb
+        self.chinese= chinese
+        self.english= english
         self.music_on = music_on
         self.SFX_on = SFX_on
         title_font = pygame.font.Font(None, 50)
@@ -117,12 +122,26 @@ class Settings:
     
 
     def toggle_mouse(self):
-        pass
+        if self.mouse == False:
+            self.mouse=True
+            self.kb = False
+            print("Mouse="+str(self.mouse))
 
     def toggle_kb(self):
-        pass
+        if self.kb == False:
+            self.kb = True
+            self.mouse = False
+            print("kb="+str(self.kb))
+
 
     def toggle_CH(self):
-        pass
+        if self.chinese == False:
+            self.chinese = True
+            self.english = False
+            print("chinese="+str(self.chinese))
+
     def toggle_EN(self):
-        pass
+        if self.english == False:
+            self.english = True
+            self.chinese = False
+            print("english="+str(self.english))

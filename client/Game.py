@@ -21,7 +21,14 @@ gameStateManager = None
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 music_on = True
 SFX_on = True
-
+global mouse
+mouse = True
+global kb
+kb=False
+global chinese
+chinese = False
+global english
+english=True
 
 class Game:
     def __init__(self):
@@ -33,7 +40,7 @@ class Game:
         global gameStateManager
         gameStateManager = GameStateManager.GameStateManager('login')
         main = Main.Main(screen, gameStateManager)
-        settings = Settings.Settings(screen, gameStateManager, music_on, SFX_on)
+        settings = Settings.Settings(screen, gameStateManager, music_on, SFX_on,mouse,kb,chinese,english)
         customization = Customization.Customization(screen, gameStateManager)
         game_arena = GameArena.GameArena(screen, gameStateManager)
         login = Login.Login(screen, gameStateManager)
