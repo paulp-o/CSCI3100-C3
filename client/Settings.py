@@ -38,8 +38,38 @@ class Settings:
         self.display.blit(settingblock_blue, (30, 220))
         self.display.blit(settingblock_white, (30, 390))
 
-        self.display.blit(self.text_Audio, (115, 75))
+
+
+        self.return_button = Button.Button(675, 30, returnbutton, 1, self.return_to_main)
+        self.music_button = Button.Button(50, 125, settingbutton_blue, 1, self.toggle_music)
+        self.SFX_button = Button.Button(380, 125, settingbutton_blue, 1, self.toggle_SFX)
+        self.mouse_button = Button.Button(50, 290, settingbutton_white, 1, self.toggle_mouse)
+        self.kb_button = Button.Button(380, 290, settingbutton_white, 1, self.toggle_kb)
+        self.CH_button = Button.Button(50, 460, settingbutton_blue, 1, self.toggle_CH)
+        self.EN_button = Button.Button(380, 460, settingbutton_blue, 1, self.toggle_EN)
+
+        if self.return_button.draw():
+            self.return_button.action()  # Call the action function on button click
+
+        if self.music_button.draw():
+            pass
+
+        if self.SFX_button.draw():
+            pass
+
+        if self.mouse_button.draw():
+            pass
+        if self.kb_button.draw():
+            pass  
+
+        if self.CH_button.draw():
+            pass  
+        if self.EN_button.draw():
+            pass  
+
         self.display.blit(self.text_Music, (175, 145))
+        self.display.blit(self.text_Audio, (115, 75))
+
         self.display.blit(self.text_SFX, (525, 145))
 
         self.display.blit(self.text_GameControl, (70, 240))
@@ -50,16 +80,8 @@ class Settings:
         self.display.blit(self.text_Chinese, (170, 480))
         self.display.blit(self.text_English, (510, 480))
 
-        self.return_button = Button.Button(675, 30, returnbutton, 1, self.return_to_main)
-        self.music_button = Button.Button(50, 125, settingbutton_blue, 1, self.toggle_music)
 
-        if self.return_button.draw():
-            self.return_button.action()  # Call the action function on button click
 
-        if self.music_button.draw():
-            pass
-
-        
     def return_to_main(self):
         self.gameStateManager.set_state('main')
 
@@ -78,3 +100,17 @@ class Settings:
             pygame.time.delay(100)
             x = x + 1
         x = x - 1
+
+    def toggle_SFX(self):
+        pass
+
+    def toggle_mouse(self):
+        pass
+
+    def toggle_kb(self):
+        pass
+
+    def toggle_CH(self):
+        pass
+    def toggle_EN(self):
+        pass
