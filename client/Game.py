@@ -27,7 +27,7 @@ class Game:
         pygame.display.set_caption('Snake.io')
 
         global gameStateManager
-        gameStateManager = GameStateManager.GameStateManager('leaderboard')
+        gameStateManager = GameStateManager.GameStateManager('login')
         main = Main.Main(screen, gameStateManager)
         settings = Settings.Settings(screen, gameStateManager, music_on)
         customization = Customization.Customization(screen, gameStateManager)

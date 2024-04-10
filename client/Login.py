@@ -151,15 +151,10 @@ class Login:
     def try_login(self):
         # need verify procedure
         url = 'http://{}/api/auth/login/'.format(domain)
-        h = {
-            
-        }
-        d = '{{"username": "{}", "password": "{}"}}'.format(self.text_input_id, self.text_input_pwd)
-        # convert to json
-        d = json.dumps(json.loads(d))
-        res = requests.post(url, headers=h, data=d).json()
-        print(res)
-        if "token" in res:
+        h = {}
+        d = {'username': self.text_input_id, 'password': self.text_input_pwd} # {'username': id, 'password': pwd}
+        res = requests.post(url, json=d, headers=h )
+        if "token" in res.json():
             return True
         else:
             return False
