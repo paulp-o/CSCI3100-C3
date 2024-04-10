@@ -59,6 +59,7 @@ class Login:
         
                 
     def run(self):
+        self.loop = True
         Game.screen.fill((200, 200, 180))
         
         # Text
@@ -97,7 +98,7 @@ class Login:
                         self.pwd_active = True
                     elif self.login_box.collidepoint(event.pos):
                         # need verification method, currently no verification
-                        if self.try_login():
+                        if self.try_login() == True:
                             self.gameStateManager.set_state('main')
                             self.loop = False
                         else:
@@ -164,9 +165,13 @@ class Login:
         h = {}
         d = {'username': self.text_input_id, 'password': self.text_input_pwd} # {'username': id, 'password': pwd}
         res = requests.post(url, json=d, headers=h )
-        if "token" in res.json():
-            return True
-        else:
+        try:
+            if "token" in res.json():
+                return True
+            else:
+                return False
+        except ValueError:
+            # Handle the case when the response is not valid JSON
             return False
         
     def try_guest_login(self):
