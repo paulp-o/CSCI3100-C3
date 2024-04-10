@@ -15,10 +15,10 @@ clock = pygame.time.Clock()
 states = None
 gameStateManager = None
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+music_on = True
 
 class Game:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         pygame.mixer.pre_init(44100, -16, 2, 512)
         mixer.init()
         pygame.init()
@@ -27,7 +27,7 @@ class Game:
         global gameStateManager
         gameStateManager = GameStateManager.GameStateManager('login')
         main = Main.Main(screen, gameStateManager)
-        settings = Settings.Settings(screen, gameStateManager)
+        settings = Settings.Settings(screen, gameStateManager, music_on)
         customization = Customization.Customization(screen, gameStateManager)
         game_arena = GameArena.GameArena(screen, gameStateManager)
         login = Login.Login(screen, gameStateManager)
@@ -47,11 +47,10 @@ class Game:
     @staticmethod
     def run():
         while True:
-            # bgm.play()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-                    sys.quit()
+                    sys.exit()
 
             states[gameStateManager.get_state()].run()
             pygame.display.update()
