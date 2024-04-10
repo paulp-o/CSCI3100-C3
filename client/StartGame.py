@@ -7,10 +7,12 @@ class StartGame:
         self.clock = pygame.time.Clock()
         self.loop = True
         
+        self.background = pygame.image.load('Assets/Main Menu/background.jpg')
+        
         self.display = display
         self.gameStateManager = gameStateManager
-        self.title_font = pygame.font.Font(None, 60)
-        self.text_font = pygame.font.Font(None, 32)
+        self.title_font = pygame.font.SysFont("comicsansms", 40)
+        self.text_font = pygame.font.SysFont("comicsansms", 22)
         
         # Icon / Image
         self.back_icon = pygame.image.load("Assets/Settings/return.png").convert_alpha()
@@ -18,13 +20,13 @@ class StartGame:
         self.ip_box = pygame.Rect((Game.SCREEN_WIDTH)/2-150,150,100,40)
         self.port_box = pygame.Rect((Game.SCREEN_WIDTH)/2,150,80,40)
         self.color_active = pygame.Color('lightskyblue3')
-        self.color_passive = pygame.Color('gray15')
+        self.color_passive = pygame.Color('#10c239')
         self.ip_box_color = self.color_passive
         self.port_box_color = self.color_passive
         
-        self.join_box = pygame.Rect((Game.SCREEN_WIDTH)/2+100,250,200,40)
+        self.join_box = pygame.Rect((Game.SCREEN_WIDTH)/2-100,250,200,40)
         self.join_box_color = 'white'
-        self.host_box = pygame.Rect((Game.SCREEN_WIDTH)/2,350,200,40)
+        self.host_box = pygame.Rect((Game.SCREEN_WIDTH)/2-100,350,200,40)
         self.host_box_color = 'white'
         
         self.ip_active = False
@@ -57,14 +59,14 @@ class StartGame:
 
     def run(self):
         
-        Game.screen.fill((200, 200, 180))
+        Game.screen.blit(self.background, (0, 0))
         self.back_button.draw()
         
         # Text
-        Game.screen.blit(self.text_title, (50,50))
-        Game.screen.blit(self.text_ip, (100, 100))
-        Game.screen.blit(self.text_port, (300,100))
-        Game.screen.blit(self.text_or, ((Game.SCREEN_WIDTH)/2,300))
+        Game.screen.blit(self.text_title, ((Game.SCREEN_WIDTH)/2-180,50))
+        Game.screen.blit(self.text_ip, (self.ip_box.x, self.ip_box.y-30))
+        Game.screen.blit(self.text_port, (self.port_box.x, self.port_box.y-30))
+        Game.screen.blit(self.text_or, ((Game.SCREEN_WIDTH)/2-90,300))
         
         # Button
         
@@ -77,7 +79,7 @@ class StartGame:
         Game.screen.blit(self.text_input_port_surface, (self.port_box.x+5, self.port_box.y+5))
         Game.screen.blit(self.text_join, self.text_join_rect)
         Game.screen.blit(self.text_host, self.text_host_rect)
-        
+        self.loop = True
         while self.loop:
             
             for event in pygame.event.get():
