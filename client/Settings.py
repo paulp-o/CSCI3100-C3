@@ -53,11 +53,8 @@ class Settings:
         self.return_button = Button.Button(675, 30, returnbutton, 1, self.return_to_main)
         self.music_button = Button.Button(50, 125, settingbutton_blue, 1, self.toggle_music)
 
-        if self.return_button.back():
-            self.return_button.action()
-
-        if self.music_button.back():
-            pass
+        if self.return_button.draw():
+            self.return_button.action()  # Call the action function on button click
 
     def return_to_main(self):
         self.gameStateManager.set_state('main')

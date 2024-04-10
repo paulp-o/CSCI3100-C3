@@ -5,6 +5,7 @@ import Settings
 import GameStateManager
 import Customization
 import GameArena
+import Login
 from pygame import mixer
 
 SCREEN_WIDTH = 800
@@ -21,29 +22,30 @@ class Game:
         pygame.mixer.pre_init(44100, -16, 2, 512)
         mixer.init()
         pygame.init()
-        pygame.display.set_caption('Snake.io')
+        pygame.display.set_caption('customization')
 
         global gameStateManager
-        gameStateManager = GameStateManager.GameStateManager('main')
+        gameStateManager = GameStateManager.GameStateManager('login')
         main = Main.Main(screen, gameStateManager)
         settings = Settings.Settings(screen, gameStateManager, music_on)
         customization = Customization.Customization(screen, gameStateManager)
         game_arena = GameArena.GameArena(screen, gameStateManager)
-        noBgm = no_bgm(gameStateManager)
-        yesBgm = yes_bgm(gameStateManager)
+        login = Login.Login(screen, gameStateManager)
+        
+
+        # play = Play(screen, gameStateManager)
+        bgm = pygame.mixer.Sound('Audio/bgm.mp3')
+        bgm.set_volume(0.05)
 
         global states
         states = {'settings': settings,
-                  'main': main,
-                  'customization': customization,
-                  'game_arena': game_arena,
-                  'no_bgm': noBgm,
-                  'yes_bgm': yesBgm}
+                       'main': main,
+                       'customization': customization,
+                       'game_arena': game_arena,
+                       'login': login}
 
-        Game.bgm = pygame.mixer.Sound('Audio/bgm.mp3')
-        pygame.mixer.Sound.play(Game.bgm)
-
-    def run(self):
+    @staticmethod
+    def run():
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -54,25 +56,12 @@ class Game:
             pygame.display.update()
             clock.tick(60)
 
-class no_bgm:
-    def __init__(self, gameStateManager):
-        self.gameStateManager = gameStateManager
-    def run(self):
-        Game.bgm.set_volume(0)
-        self.gameStateManager.set_state('settings')
 
 
-class yes_bgm:
-    def __init__(self,gameStateManager):
-        self.gameStateManager = gameStateManager
-    def run(self):
-        Game.bgm.set_volume(0.5)
-        self.gameStateManager.set_state('settings')
+Game.__init__()
+Game.run()
 
 
-if __name__ == '__main__':
-    game = Game()
-    game.run()
 """
 class Play:
     def __init__(self, display, gameStateManager):
