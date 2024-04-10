@@ -7,4 +7,4 @@ class UserDataSerializer(serializers.ModelSerializer):
         model = UserData
         # Add or remove fields as needed.
         fields = ['id', 'settings', 'customization',
-                  'purchased_items', 'highscores', 'profile']
+                  'purchased_items', 'highscores', 'profile', 'money']
