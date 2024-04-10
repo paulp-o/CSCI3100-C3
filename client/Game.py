@@ -35,21 +35,27 @@ class Game:
         login = Login.Login(screen, gameStateManager)
         leaderboard = Leaderboard.Leaderboard(screen, gameStateManager)
         
+        noBgm = no_bgm(gameStateManager)
+        yesBgm = yes_bgm(gameStateManager)
 
-        # play = Play(screen, gameStateManager)
-        bgm = pygame.mixer.Sound('Audio/bgm.mp3')
-        bgm.set_volume(0.05)
+
 
         global states
         states = {'settings': settings,
-                       'main': main,
-                       'customization': customization,
-                       'game_arena': game_arena,
-                       'login': login,
-                       'leaderboard': leaderboard}
+                  'main': main,
+                  'customization': customization,
+                  'game_arena': game_arena,
+                  'login': login,
+                  'no_bgm': noBgm,
+                  'yes_bgm': yesBgm,
+                  'leaderboard': leaderboard
+                  }
 
-    @staticmethod
-    def run():
+        Game.bgm = pygame.mixer.Sound('Audio/bgm.mp3')
+        Game.bgm.set_volume(0.01)
+        pygame.mixer.Sound.play(Game.bgm)
+        
+    def run(self):
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -59,6 +65,22 @@ class Game:
             states[gameStateManager.get_state()].run()
             pygame.display.update()
             clock.tick(60)
+
+
+class no_bgm:
+    def __init__(self, gameStateManager):
+        self.gameStateManager = gameStateManager
+    def run(self):
+        Game.bgm.set_volume(0)
+        self.gameStateManager.set_state('settings')
+
+
+class yes_bgm:
+    def __init__(self,gameStateManager):
+        self.gameStateManager = gameStateManager
+    def run(self):
+        Game.bgm.set_volume(0.01)
+        self.gameStateManager.set_state('settings')
 
 
 if __name__ == '__main__':
