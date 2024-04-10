@@ -41,6 +41,7 @@ class Login:
         self.text_guest_login = self.text_font.render('guest login',False,'black')
         self.text_register = self.text_font.render('register',False,'black')
         
+        # Text on functional buttons
         self.text_login_rect = self.text_login.get_rect()
         self.text_login_rect.center = self.login_box.center
         self.text_guest_login_rect = self.text_guest_login.get_rect()
@@ -48,7 +49,7 @@ class Login:
         self.text_register_rect = self.text_register.get_rect()
         self.text_register_rect.center = self.register_box.center
         
-        
+        # input text
         self.text_input_id = ''
         self.text_input_pwd = ''
         self.text_input_id_surface = self.text_font.render(self.text_input_id, True, (255,255,255))
