@@ -97,11 +97,11 @@ class StartGame:
                     elif self.join_box.collidepoint(event.pos):
                         # need to verify
                         subprocess.call(['python', 'game_arena/main.py'])
-                        self.gameStateManager.set_state('game_arena')
+                        self.gameStateManager.set_state('gameover')
                         self.loop = False
                     elif self.host_box.collidepoint(event.pos):
                         # need to host game
-                        self.gameStateManager.set_state('game_arena')
+                        self.gameStateManager.set_state('gameover')
                         self.loop = False
                     else:
                         self.ip_active = False

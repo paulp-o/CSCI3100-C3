@@ -4,7 +4,7 @@ import Main
 import Settings
 import GameStateManager
 import Customization
-import GameArena
+import Gameover
 import Login
 import Leaderboard
 import Button
@@ -42,7 +42,7 @@ class Game:
         main = Main.Main(screen, gameStateManager)
         settings = Settings.Settings(screen, gameStateManager, music_on, SFX_on,mouse,kb,chinese,english)
         customization = Customization.Customization(screen, gameStateManager)
-        game_arena = GameArena.GameArena(screen, gameStateManager)
+        gameover = Gameover.Gameover(screen, gameStateManager)
         login = Login.Login(screen, gameStateManager)
         leaderboard = Leaderboard.Leaderboard(screen, gameStateManager)
         register = Register.Register(screen, gameStateManager)
@@ -59,7 +59,7 @@ class Game:
         states = {'settings': settings,
                   'main': main,
                   'customization': customization,
-                  'game_arena': game_arena,
+                  'gameover': gameover,
                   'login': login,
                   'no_bgm': noBgm,
                   'yes_bgm': yesBgm,
