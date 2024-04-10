@@ -13,56 +13,59 @@ class Leaderboard:
         self.back_icon = pygame.image.load("Assets/Settings/return.png").convert_alpha()
         
         self.color_rank_1 =pygame.Color('gold')
-        self.color_rank_2 =pygame.Color('silver')
-        self.color_rank_3 =pygame.Color('copper')
-        self.color_rank_rest =pygame.Color('gray')
+        self.color_rank_2 =pygame.Color('azure2')
+        self.color_rank_3 =pygame.Color('burlywood2')
+        self.color_rank_rest =pygame.Color('azure3')
         self.color_user =pygame.Color('white')
         
         # rect for ranking
-        self.rect_rank_1 = pygame.Rect(50,100,40,40)
-        self.rect_rank_2 = pygame.Rect(50,150,40,40)
-        self.rect_rank_3 = pygame.Rect(50,200,40,40)
-        self.rect_rank_4 = pygame.Rect(50,250,40,40)
-        self.rect_rank_5 = pygame.Rect(50,300,40,40)
-        self.rect_rank_6 = pygame.Rect(50,350,40,40)
-        self.rect_rank_7 = pygame.Rect(50,400,40,40)
-        self.rect_rank_8 = pygame.Rect(50,450,40,40)
-        self.rect_rank_9 = pygame.Rect(50,500,40,40)
-        self.rect_rank_10 = pygame.Rect(50,550,40,40)
-        self.rect_rank_user = pygame.Rect(50,600,40,40)
+        self.rect_rank_1 = pygame.Rect((Game.SCREEN_WIDTH)/2-110,30,40,40)
+        self.rect_rank_2 = pygame.Rect((Game.SCREEN_WIDTH)/2-110,80,40,40)
+        self.rect_rank_3 = pygame.Rect((Game.SCREEN_WIDTH)/2-110,130,40,40)
+        self.rect_rank_4 = pygame.Rect((Game.SCREEN_WIDTH)/2-110,180,40,40)
+        self.rect_rank_5 = pygame.Rect((Game.SCREEN_WIDTH)/2-110,230,40,40)
+        self.rect_rank_6 = pygame.Rect((Game.SCREEN_WIDTH)/2-110,280,40,40)
+        self.rect_rank_7 = pygame.Rect((Game.SCREEN_WIDTH)/2-110,330,40,40)
+        self.rect_rank_8 = pygame.Rect((Game.SCREEN_WIDTH)/2-110,380,40,40)
+        self.rect_rank_9 = pygame.Rect((Game.SCREEN_WIDTH)/2-110,430,40,40)
+        self.rect_rank_10 = pygame.Rect((Game.SCREEN_WIDTH)/2-110,480,40,40)
+        self.rect_rank_user = pygame.Rect((Game.SCREEN_WIDTH)/2-110,530,40,40)
         
         # rect for username
-        self.rect_id_1 = pygame.Rect(100,100,100,40)
-        self.rect_id_2 = pygame.Rect(100,150,100,40)
-        self.rect_id_3 = pygame.Rect(100,200,100,40)
-        self.rect_id_4 = pygame.Rect(100,250,100,40)
-        self.rect_id_5 = pygame.Rect(100,300,100,40)
-        self.rect_id_6 = pygame.Rect(100,350,100,40)
-        self.rect_id_7 = pygame.Rect(100,400,100,40)
-        self.rect_id_8 = pygame.Rect(100,450,100,40)
-        self.rect_id_9 = pygame.Rect(100,500,100,40)
-        self.rect_id_10 = pygame.Rect(100,550,100,40)
-        self.rect_id_user = pygame.Rect(100,600,100,40)
+        self.rect_id_1 = pygame.Rect((Game.SCREEN_WIDTH)/2-60,30,100,40)
+        self.rect_id_2 = pygame.Rect((Game.SCREEN_WIDTH)/2-60,80,100,40)
+        self.rect_id_3 = pygame.Rect((Game.SCREEN_WIDTH)/2-60,130,100,40)
+        self.rect_id_4 = pygame.Rect((Game.SCREEN_WIDTH)/2-60,180,100,40)
+        self.rect_id_5 = pygame.Rect((Game.SCREEN_WIDTH)/2-60,230,100,40)
+        self.rect_id_6 = pygame.Rect((Game.SCREEN_WIDTH)/2-60,280,100,40)
+        self.rect_id_7 = pygame.Rect((Game.SCREEN_WIDTH)/2-60,330,100,40)
+        self.rect_id_8 = pygame.Rect((Game.SCREEN_WIDTH)/2-60,380,100,40)
+        self.rect_id_9 = pygame.Rect((Game.SCREEN_WIDTH)/2-60,430,100,40)
+        self.rect_id_10 = pygame.Rect((Game.SCREEN_WIDTH)/2-60,480,100,40)
+        self.rect_id_user = pygame.Rect((Game.SCREEN_WIDTH)/2-60,530,100,40)
         
         # rect for score
-        self.rect_score_1 = pygame.Rect(210,100,70,40)
-        self.rect_score_2 = pygame.Rect(210,150,70,40)
-        self.rect_score_3 = pygame.Rect(210,200,70,40)
-        self.rect_score_4 = pygame.Rect(210,250,70,40)
-        self.rect_score_5 = pygame.Rect(210,300,70,40)
-        self.rect_score_6 = pygame.Rect(210,350,70,40)
-        self.rect_score_7 = pygame.Rect(210,400,70,40)
-        self.rect_score_8 = pygame.Rect(210,450,70,40)
-        self.rect_score_9 = pygame.Rect(210,500,70,40)
-        self.rect_score_10 = pygame.Rect(210,550,70,40)
-        self.rect_score_user = pygame.Rect(210,600,70,40)
+        self.rect_score_1 = pygame.Rect((Game.SCREEN_WIDTH)/2+50,30,70,40)
+        self.rect_score_2 = pygame.Rect((Game.SCREEN_WIDTH)/2+50,80,70,40)
+        self.rect_score_3 = pygame.Rect((Game.SCREEN_WIDTH)/2+50,130,70,40)
+        self.rect_score_4 = pygame.Rect((Game.SCREEN_WIDTH)/2+50,180,70,40)
+        self.rect_score_5 = pygame.Rect((Game.SCREEN_WIDTH)/2+50,230,70,40)
+        self.rect_score_6 = pygame.Rect((Game.SCREEN_WIDTH)/2+50,280,70,40)
+        self.rect_score_7 = pygame.Rect((Game.SCREEN_WIDTH)/2+50,330,70,40)
+        self.rect_score_8 = pygame.Rect((Game.SCREEN_WIDTH)/2+50,380,70,40)
+        self.rect_score_9 = pygame.Rect((Game.SCREEN_WIDTH)/2+50,430,70,40)
+        self.rect_score_10 = pygame.Rect((Game.SCREEN_WIDTH)/2+50,480,70,40)
+        self.rect_score_user = pygame.Rect((Game.SCREEN_WIDTH)/2+50,530,70,40)
         
         
         # Button
         self.back_button = Button.Button(Game.SCREEN_WIDTH - 60, 5, self.back_icon, 0.5)
         
         # Text
-        self.title_customization = title_font.render('Leaderboard', False, 'white')
+        self.rect_title = pygame.Rect(20,10,200,40)
+        self.title_leaderboard = title_font.render('Leaderboard', False, 'white')
+        self.title_leaderboard_rect = self.title_leaderboard.get_rect()
+        self.title_leaderboard_rect.center = self.rect_title.center
         
         self.text_rank_1 = text_font.render('1', False, 'white')        
         self.text_rank_1_rect = self.text_rank_1.get_rect()
@@ -94,7 +97,7 @@ class Leaderboard:
         self.text_rank_10 = text_font.render('10', False, 'white')        
         self.text_rank_10_rect = self.text_rank_10.get_rect()
         self.text_rank_10_rect.center = self.rect_rank_10.center
-        self.text_rank_user = text_font.render('User', False, 'black')        
+        self.text_rank_user = text_font.render('Me', False, 'black')        
         self.text_rank_user_rect = self.text_rank_user.get_rect()
         self.text_rank_user_rect.center = self.rect_rank_user.center
         
@@ -107,6 +110,8 @@ class Leaderboard:
         Game.screen.fill((200, 200, 180))
         
         self.back_button.draw()
+        
+        Game.screen.blit(self.title_leaderboard, self.title_leaderboard_rect)
         
         # draw rank box
         pygame.draw.rect(Game.screen, self.color_rank_1, self.rect_rank_1)

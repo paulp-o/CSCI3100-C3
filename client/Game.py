@@ -18,15 +18,16 @@ gameStateManager = None
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 music_on = True
 
+
 class Game:
     def __init__(self):
         pygame.mixer.pre_init(44100, -16, 2, 512)
         mixer.init()
         pygame.init()
-        pygame.display.set_caption('customization')
+        pygame.display.set_caption('Snake.io')
 
         global gameStateManager
-        gameStateManager = GameStateManager.GameStateManager('login')
+        gameStateManager = GameStateManager.GameStateManager('leaderboard')
         main = Main.Main(screen, gameStateManager)
         settings = Settings.Settings(screen, gameStateManager, music_on)
         customization = Customization.Customization(screen, gameStateManager)
@@ -60,9 +61,9 @@ class Game:
             clock.tick(60)
 
 
-
-Game.__init__()
-Game.run()
+if __name__ == '__main__':
+    game = Game()
+    game.run()
 
 
 """
