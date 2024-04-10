@@ -9,9 +9,10 @@ settingbutton_white = pygame.transform.scale(pygame.image.load('Assets/Settings/
 returnbutton = pygame.transform.scale(pygame.image.load('Assets/Settings/return.png'), (50, 50))
 
 class Settings:
-    def __init__(self, display, gameStateManager):
+    def __init__(self, display, gameStateManager, bgm_channel):
         self.display = display
         self.gameStateManager = gameStateManager
+        self.bgm_channel = bgm_channel
         title_font = pygame.font.Font(None, 50)
         text_font = pygame.font.Font(None, 35)
 
@@ -30,7 +31,7 @@ class Settings:
         self.text_Chinese = text_font.render('Chinese', False, 'white')
         self.text_English = text_font.render('English', False, 'white')
 
-        self.return_button = Button.Button(675, 30, returnbutton, 1, self.return_to_main)
+        self.music_on = True  # Variable to track the music state
 
     def run(self):
         Game.screen.blit(self.background, (0, 0))
@@ -38,12 +39,6 @@ class Settings:
         Game.screen.blit(settingblock_white, (30, 50))
         Game.screen.blit(settingblock_blue, (30, 220))
         Game.screen.blit(settingblock_white, (30, 390))
-        Game.screen.blit(settingbutton_blue, (50, 125))
-        Game.screen.blit(settingbutton_blue, (385, 125))
-        Game.screen.blit(settingbutton_white, (50, 295))
-        Game.screen.blit(settingbutton_white, (385, 295))
-        Game.screen.blit(settingbutton_blue, (50, 465))
-        Game.screen.blit(settingbutton_blue, (385, 465))
 
         Game.screen.blit(self.text_Audio, (115, 75))
         Game.screen.blit(self.text_Music, (175, 145))
@@ -57,8 +52,22 @@ class Settings:
         Game.screen.blit(self.text_Chinese, (170, 480))
         Game.screen.blit(self.text_English, (510, 480))
 
+        self.return_button = Button.Button(675, 30, returnbutton, 1, self.return_to_main)
+        self.music_button = Button.Button(50, 125, settingbutton_blue, 1, self.toggle_music)
+
         if self.return_button.back():
-            self.return_button.action()  # Call the action function on button click
+            self.return_button.action()
+
+        if self.music_button.back():
+            self.music_button.action()
 
     def return_to_main(self):
         self.gameStateManager.set_state('main')
+
+    def toggle_music(self):
+        if self.music_on:
+            Game.bgm_channel.pause()
+            self.music_on = False
+        else:
+            Game.bgm_channel.unpause()
+            self.music_on = True

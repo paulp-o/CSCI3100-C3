@@ -23,17 +23,24 @@ class Game:
         pygame.init()
         pygame.display.set_caption('Snake.io')
 
+        # Create a dedicated channel for BGM
+        bgm_channel = mixer.Channel(0)
+
+        # Load and play the BGM
+        bgm = pygame.mixer.Sound('Audio/bgm.mp3')
+        bgm.set_volume(0.01)
+        bgm_channel.play(bgm, loops=-1)  # -1 for continuous looping
+
         global gameStateManager
         gameStateManager = GameStateManager.GameStateManager('settings')
         main = Main.Main(screen, gameStateManager)
-        settings = Settings.Settings(screen, gameStateManager)
+        settings = Settings.Settings(screen, gameStateManager, bgm_channel)
         customization = Customization.Customization(screen, gameStateManager)
         game_arena = GameArena.GameArena(screen, gameStateManager)
 
-        # play = Play(screen, gameStateManager)
-        bgm = pygame.mixer.Sound('Audio/bgm.mp3')
-        bgm.set_volume(0.05)
 
+
+        
         global states
         states = {'settings': settings,
                        'main': main,
@@ -43,7 +50,7 @@ class Game:
     @staticmethod
     def run():
         while True:
-            # bgm.play()
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
