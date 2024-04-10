@@ -32,7 +32,7 @@ class StartGame:
         
         # Button
         self.back_button = Button.Button(Game.SCREEN_WIDTH - 60, 5, self.back_icon, 0.5)
-        self.back_button.action = lambda: self.gameStateManager.set_state('main')
+        self.back_button.action = lambda:   self.gameStateManager.set_state('main'); self.loop = False
         
         # Text
         self.text_title = self.title_font.render('Join / Host Game', False, 'white')
