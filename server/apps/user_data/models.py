@@ -11,6 +11,7 @@ class UserData(models.Model):
     purchased_items = models.JSONField(default=dict)
     highscores = models.JSONField(default=dict)
     profile = models.TextField(blank=True, null=True)
+    money = models.IntegerField(default=0)
 
     def __str__(self):
         return self.user.username
