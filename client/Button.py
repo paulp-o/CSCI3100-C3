@@ -23,6 +23,9 @@ class Button():
                 if self.action:
                     self.action()  # Call the action function if provided
 
+        if pygame.mouse.get_pressed()[0] == 0:
+            self.clicked = False
+
         Game.screen.blit(self.image, (self.rect.x, self.rect.y))
 
         return action
