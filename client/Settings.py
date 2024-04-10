@@ -89,36 +89,32 @@ class Settings:
         self.gameStateManager.set_state('main')
 
     def toggle_music(self):
-        x = 0
         if self.music_on:
             self.music_on = False
             self.gameStateManager.set_state('no_bgm')
             print('f')
             
             pygame.time.delay(100)
-        elif not self.music_on and x == 0:
+        elif not self.music_on:
             self.music_on = True
             self.gameStateManager.set_state('yes_bgm')
             print('t')
             pygame.time.delay(100)
-            x = x + 1
-        x = x - 1
+
 
     def toggle_SFX(self):
-        x = 0
         if self.SFX_on:
             self.SFX_on = False
             self.gameStateManager.set_state('no_SFX')
             print('ff')
             pygame.time.delay(100)
 
-        elif not self.SFX_on and x == 0:
+        elif not self.SFX_on:
             self.SFX_on = True
             self.gameStateManager.set_state('yes_SFX')
             print('tt')
             pygame.time.delay(100)
-            x = x + 1
-        x = x - 1      
+    
 
     def toggle_mouse(self):
         pass
