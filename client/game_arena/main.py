@@ -108,30 +108,30 @@ def regenerate_food(dot_pos, snake_body, window_width, window_height, food_dots)
 
 
 def handle_keys(snake_direction, turn_speed, camera_offset, snake_head):
-    if input_method == 'mouse':
-        # Get the mouse position
-        mouse_pos = pygame.mouse.get_pos()
-        # Convert to a vector and adjust for the camera offset
-        mouse_pos = pygame.math.Vector2(mouse_pos) + camera_offset
-        # Get the direction towards the mouse
-        mouse_dir = mouse_pos - snake_head
-        # Normalize the directions
-        mouse_dir.normalize_ip()
-        snake_direction.normalize_ip()
-        # Get the angle to the mouse direction
-        angle = snake_direction.angle_to(mouse_dir)
-        # Limit the angle to the turn speed
-        angle = max(-turn_speed, min(turn_speed, angle))
-        # Rotate the snake direction
-        snake_direction.rotate_ip(-angle)
-        return snake_direction
-    elif input_method == 'keyboard':
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
-            snake_direction.rotate_ip(-turn_speed)
-        if keys[pygame.K_RIGHT]:
-            snake_direction.rotate_ip(turn_speed)
-        return snake_direction
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        snake_direction.rotate_ip(-turn_speed)
+    if keys[pygame.K_RIGHT]:
+        snake_direction.rotate_ip(turn_speed)
+    return snake_direction
+
+
+def handle_mouse(snake_direction, turn_speed, camera_offset, snake_head):
+    mouse_x, mouse_y = pygame.mouse.get_pos()
+    center_x, center_y = window_width / 2, window_height / 2
+    dx, dy = mouse_x - center_x, mouse_y - center_y
+
+    # Calculate the angle only if the mouse is away from the center to prevent stuttering
+    if dx**2 + dy**2 > 100:  # Using 100 pixels as a threshold for sensitivity
+        angle = math.atan2(dy, dx)
+        snake_direction = pygame.math.Vector2(math.cos(angle), math.sin(angle))
+    else:
+        # Continue in the same direction if the mouse is too close to the center
+        snake_direction = snake_head - pygame.math.Vector2(center_x, center_y)
+        if snake_direction.length() > 0:
+            snake_direction = snake_direction.normalize()
+
+    return snake_direction
 
 
 def get_random_dot_position(snake_body, window_width, window_height):
@@ -231,8 +231,12 @@ while running:
             running = False
 
     # Handle keys
-    snake_direction = handle_keys(snake_direction, turn_speed,
-                                  camera_offset, snake_body[0])
+    if input_method == 'keyboard':
+        snake_direction = handle_keys(
+            snake_direction, turn_speed, camera_offset, snake_body[0])
+    elif input_method == 'mouse':
+        snake_direction = handle_mouse(
+            snake_direction, turn_speed, camera_offset, snake_body[0])
 
     # Move the snake
     snake_body = move_snake(snake_body, snake_direction, snake_speed)
