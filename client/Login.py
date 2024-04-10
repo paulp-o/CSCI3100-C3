@@ -1,7 +1,8 @@
-import pygame, sys
+import pygame, sys, requests, json
 import Game
 import Button
 
+domain = '127.0.0.1:8000'
 
 class Login:
     def __init__(self, display, gameStateManager):
@@ -91,8 +92,13 @@ class Login:
                         self.pwd_active = True
                     elif self.login_box.collidepoint(event.pos):
                         # need verification method, currently no verification
-                        self.try_login()
-                        self.loop = False
+                        if self.try_login():
+                            self.gameStateManager.set_state('main')
+                            self.loop = False
+                        else:
+                            self.text_input_id = ''
+                            self.text_input_pwd = ''
+                            
                     elif self.guest_login_box.collidepoint(event.pos):
                         self.try_guest_login()
                         self.loop = False
@@ -144,10 +150,20 @@ class Login:
     
     def try_login(self):
         # need verify procedure
-        self.verify = True
-        if self.verify:
-            self.gameStateManager.set_state('main') # go to main menu
+        url = 'http://{}/api/auth/login/'.format(domain)
+        h = {
             
+        }
+        d = '{{"username": "{}", "password": "{}"}}'.format(self.text_input_id, self.text_input_pwd)
+        # convert to json
+        d = json.dumps(json.loads(d))
+        res = requests.post(url, headers=h, data=d).json()
+        print(res)
+        if "token" in res:
+            return True
+        else:
+            return False
+        
     def try_guest_login(self):
         self.gameStateManager.set_state('main') # go to main menu
         
