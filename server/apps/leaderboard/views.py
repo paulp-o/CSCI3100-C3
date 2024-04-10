@@ -5,7 +5,7 @@ from .serializers import PlayerSerializer
 
 class UpdateDataView(views.APIView):
 #   permission_classes = [IsAuthenticatedOrReadOnly]
-    authentication_classes = [] #disables authentication
+    authentication_classes = []
     permission_classes = [] 
 
     def post(self, request):
@@ -16,7 +16,7 @@ class UpdateDataView(views.APIView):
         return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class RetrieveDataView(views.APIView):
-#    permission_classes = []
+    permission_classes = []
 
     def get(self, request):
         players = Player.objects.all()
