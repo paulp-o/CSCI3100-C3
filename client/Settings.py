@@ -56,6 +56,10 @@ class Settings:
         if self.return_button.draw():
             self.return_button.action()  # Call the action function on button click
 
+        if self.music_button.draw():
+            pass
+
+        
     def return_to_main(self):
         self.gameStateManager.set_state('main')
 
