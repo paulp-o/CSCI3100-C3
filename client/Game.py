@@ -9,6 +9,7 @@ import Login
 import Leaderboard
 import Button
 import Register
+import StartGame
 from pygame import mixer
 
 SCREEN_WIDTH = 800
@@ -38,6 +39,7 @@ class Game:
         login = Login.Login(screen, gameStateManager)
         leaderboard = Leaderboard.Leaderboard(screen, gameStateManager)
         register = Register.Register(screen, gameStateManager)
+        start_game = StartGame.StartGame(screen, gameStateManager)
         
         noBgm = no_bgm(gameStateManager)
         yesBgm = yes_bgm(gameStateManager)
@@ -57,7 +59,8 @@ class Game:
                   'no_SFX': noSFX,
                   'yes_SFX': yesSFX,
                   'leaderboard': leaderboard,
-                  'register': register
+                  'register': register,
+                  'start_game': start_game
                   }
 
         Game.bgm = pygame.mixer.Sound('Audio/bgm.mp3')
