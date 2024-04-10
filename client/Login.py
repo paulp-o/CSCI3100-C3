@@ -18,7 +18,7 @@ class Login:
         self.id_box = pygame.Rect(300,140,100,40)
         self.pwd_box = pygame.Rect(300,190,100,40)
         self.color_active = pygame.Color('lightskyblue3')
-        self.color_passive = pygame.Color('gray15')
+        self.color_passive = pygame.Color('#10c239')
         self.id_box_color = self.color_passive
         self.pwd_box_color = self.color_passive
         
@@ -33,13 +33,13 @@ class Login:
         self.pwd_active = False
         
         # Text
-        self.text_title = self.title_font.render('Login', False, 'white')
-        self.text_id = self.text_font.render('Enter your id', False, 'white')
-        self.text_password = self.text_font.render('Enter your password', False, 'white')
-        self.text_guest = self.text_font.render('Play as a guest', False, 'white')
-        self.text_login = self.text_font.render('login',False,'black')
-        self.text_guest_login = self.text_font.render('guest login',False,'black')
-        self.text_register = self.text_font.render('register',False,'black')
+        self.text_title = self.title_font.render('Login', False, '#10c239')
+        self.text_id = self.text_font.render('Enter your id', False, '#10c239')
+        self.text_password = self.text_font.render('Enter your password', False, '#10c239')
+        self.text_guest = self.text_font.render('Play as a guest', False, '#10c239')
+        self.text_login = self.text_font.render('login',False,'#10c239')
+        self.text_guest_login = self.text_font.render('guest login',False,'#10c239')
+        self.text_register = self.text_font.render('register',False,'#10c239')
         
         # Text on functional buttons
         self.text_login_rect = self.text_login.get_rect()
