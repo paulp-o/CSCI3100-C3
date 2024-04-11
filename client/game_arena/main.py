@@ -382,8 +382,10 @@ while running:
                     player.score *= 0.9
                     # increase the kills of the killer
                     other_player.kills += 1
-                    # increase the score of the killer
-                    other_player.score *= 1.03
+                    # increase the score of the killer. add 100 first
+                    other_player.score += 100
+                    # increase the score of the killer, depending on the length of the dead player
+                    other_player.score += player.length * 10
 
     # check if one of the player's head collides with the boundary. If so, that player loses.
     for player in players:
