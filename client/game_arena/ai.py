@@ -3,7 +3,7 @@ import random
 
 
 def play_ai(ai, players, food_dots):
-    randomness = 20  # Base level of randomness in AI movement
+    randomness = 45  # Base level of randomness in AI movement
     aggression_threshold = 250  # Distance within which the AI considers being aggressive
 
     # Determine AI's current length and the nearest player

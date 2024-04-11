@@ -32,7 +32,7 @@ def server_communication():
         # Receive data from the server
         data = s.recv(1024)
         # TODO: Process the received data
-        print(f"Received data from server: {data.decode()}")
+        # print(f"Received data from server: {data.decode()}")
 
 
 # Create a new thread that runs the server communication function
@@ -63,7 +63,7 @@ pygame.display.set_caption('Snake.io')
 
 # Load resources
 # Load your background image
-background = pygame.image.load('game_arena/background_image.jpg').convert()
+background = pygame.image.load('background_image.jpg').convert()
 background_rect = background.get_rect()
 
 # Define colors
@@ -84,6 +84,7 @@ class Snake:
         self.length = length
         self.direction = pygame.math.Vector2(1, 0)
         self.speed = 3
+        self.score = 100
         self.turn_speed = 5
         for i in range(1, length):
             self.body[i] = self.body[i-1] - self.direction
@@ -108,6 +109,7 @@ class Snake:
 
     def grow(self):
         # Add a new segment to the snake
+        self.score += 10
         self.body.append(self.body[-1])
 
     def rotate_vector(vector, angle):
@@ -270,9 +272,19 @@ players = [ai, ai2, ai3, ai4, player]
 for player in players:
     player.deaths = 0
 
+# store each players' kills
+for player in players:
+    player.kills = 0
+
 start_time = time.time()
+loop = 0
 while running:
-    print(round((time.time() - start_time) / 1000, 1), 's')
+    # print time passed every 100 loops
+    loop += 1
+    if loop % 100 == 0:
+        # print(f'time passed: {time.time() - start_time}')
+        pass
+
     # Get camera offset
     # camera_offset = get_camera_offset(
     #     snake_body[0], window_width, window_height)
@@ -283,7 +295,9 @@ while running:
     draw_boundary(window, arena_rect, camera_offset)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            # pause the game and show the game over screen
             running = False
+            break
 
     # # Handle keys
     # if input_method == 'keyboard':
@@ -312,6 +326,7 @@ while running:
     ai2.update()
     ai3.update()
     ai4.update()
+
     # Check for collisions
     # if check_collision_with_dot(player.body[0], dot_pos):
     #     # Or more, depending on your growth logic
@@ -328,12 +343,6 @@ while running:
     # Draw everything
     draw_dots(window, food_dots, camera_offset)
 
-    # show each player's deaths in the bottom left corner
-    for i, player in enumerate(players):
-        font = pygame.font.Font(None, 36)
-        text = font.render(f'{player.id} deaths: {player.deaths}', True, WHITE)
-        window.blit(text, (10, window_height - 30 * (i + 1)))
-
     # check if one of the player's head collides with other player's body. If so, that player loses.
     for player in players:
         for other_player in players:
@@ -341,13 +350,25 @@ while running:
                 continue
             for segment in other_player.body[1:]:
                 if player.body[0].distance_to(segment) < snake_dot_size:
-                    print(f'{player.id} loses!')
+                    # print(f'{player.id} loses!')
                     # resume the game and respawn the dead player, in a place where there is no other player
                     player.body[0] = get_random_dot_position(
                         player.body, window_width, window_height)
                     player.body = [player.body[0]] * player.length
                     # increase the deaths of the dead player
                     player.deaths += 1
+                    # decrease the score of the dead player
+                    player.score *= 0.9
+                    # increase the kills of the killer
+                    other_player.kills += 1
+                    # increase the score of the killer
+                    other_player.score *= 1.03
+
+    # if someone reaches 10 deaths, the game ends
+    for player in players:
+        if player.deaths >= 10:
+            # print(f'{player.id} has reached 10 deaths. Game over!')
+            running = False
 
     # draw all players, with all different colors
     colors = [GREEN, BLUE, YELLOW, PURPLE, ORANGE]
@@ -358,15 +379,26 @@ while running:
     level, start_time, snake_speed = check_level_progression(
         start_time, level_duration, level, player.speed)
 
+    # show each player's deaths, kills and score in the bottom left corner
+    for i, player in enumerate(players):
+        font = pygame.font.Font(None, 25)
+        text = font.render(
+            f'{player.id}: deaths: {player.deaths}, kills: {player.kills}, score: {round(player.score)}', True, (255, 255, 255))
+        textRect = text.get_rect()
+        textRect.topleft = (10, 10 + i * 20)
+        window.blit(text, textRect)
     # Refresh the display
     pygame.display.flip()
 
     # Frame Per Second /Refresh Rate
     pygame.time.Clock().tick(60)
 
-    # print snake position
-    print(snake_body[0])
-
+# print out the game result including each player's deaths, kills and score in dictionary format
+result = {}
+for player in players:
+    result[player.id] = {'deaths': player.deaths,
+                         'kills': player.kills, 'score': player.score}
+print(result)
 # Quit the game
 pygame.quit()
 sys.exit()
