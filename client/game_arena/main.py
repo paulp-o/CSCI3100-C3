@@ -111,6 +111,10 @@ class Snake:
         # Add a new segment to the snake
         self.score += 10
         self.body.append(self.body[-1])
+        self.body.append(self.body[-1])
+        self.body.append(self.body[-1])
+        self.body.append(self.body[-1])
+        self.body.append(self.body[-1])
 
     def rotate_vector(vector, angle):
         """Rotate a vector by a given angle."""
@@ -144,24 +148,38 @@ def handle_keys(snake_direction, turn_speed, camera_offset, snake_head):
     return snake_direction
 
 
-def handle_mouse(snake_direction, turn_speed, camera_offset, snake_head):
+def handle_mouse(snake_direction, turn_speed, camera_offset, snake_head, MAX_ANGLE_CHANGE=10):
     mouse_x, mouse_y = pygame.mouse.get_pos()
-    center_x, center_y = window_width / 2, window_height / 2
-    dx, dy = mouse_x - center_x, mouse_y - center_y
+    center_x, center_y = window_width // 2, window_height // 2
+    mouse_world_x, mouse_world_y = mouse_x + \
+        camera_offset.x, mouse_y + camera_offset.y
 
-    # Calculate the angle only if the mouse is away from the center to prevent stuttering
-    if dx**2 + dy**2 > 100:  # Using 100 pixels as a threshold for sensitivity
-        angle = math.atan2(dy, dx)
-        snake_direction = pygame.math.Vector2(
-            math.cos(angle), math.sin(angle))
-    else:
-        # Continue in the same direction if the mouse is too close to the center
-        snake_direction = snake_head - \
-            pygame.math.Vector2(center_x, center_y)
-        if snake_direction.length() > 0:
-            snake_direction = snake_direction.normalize()
+    target_direction = pygame.math.Vector2(
+        mouse_world_x, mouse_world_y) - snake_head
+    if target_direction.length_squared() == 0:  # Prevent division by zero
+        return snake_direction
 
-    return snake_direction
+    target_direction.normalize_ip()
+
+    # Calculate current angle and target angle in degrees
+    current_angle = math.degrees(math.atan2(
+        snake_direction.y, snake_direction.x))
+    target_angle = math.degrees(math.atan2(
+        target_direction.y, target_direction.x))
+
+    # Calculate the shortest angle difference
+    angle_difference = (target_angle - current_angle + 180) % 360 - 180
+
+    # Clamp the angle difference to the max allowed change
+    angle_difference = max(
+        min(angle_difference, MAX_ANGLE_CHANGE), -MAX_ANGLE_CHANGE)
+
+    # Calculate new direction based on clamped angle difference
+    new_angle = math.radians(current_angle + angle_difference)
+    new_direction = pygame.math.Vector2(
+        math.cos(new_angle), math.sin(new_angle))
+
+    return new_direction.normalize()
 
 
 # define food number
@@ -380,9 +398,9 @@ while running:
             # decrease the score of the dead player
             player.score *= 0.9
 
-    # if someone reaches 10 deaths, the game ends
+    # if someone reaches 1000 points, the game ends
     for player in players:
-        if player.deaths >= 10:
+        if player.score >= 1000:
             # print(f'{player.id} has reached 10 deaths. Game over!')
             running = False
 
