@@ -164,6 +164,9 @@ def handle_mouse(snake_direction, turn_speed, camera_offset, snake_head):
     return snake_direction
 
 
+# define food number
+food_num = 30
+
 # make a player snake.
 player = Snake(pygame.math.Vector2(400, 400), 5, 'player')
 
@@ -260,7 +263,7 @@ def draw_boundary(window, boundary_rect, offset):
 #     snake_body, window_width, window_height) for _ in range(10)]
 food_dots = [get_random_dot_position(
     # Start with 10 dots
-    player.body, window_width, window_height) for _ in range(10)]
+    player.body, window_width, window_height) for _ in range(food_num)]
 
 # Main game loop
 running = True
@@ -363,6 +366,19 @@ while running:
                     other_player.kills += 1
                     # increase the score of the killer
                     other_player.score *= 1.03
+
+    # check if one of the player's head collides with the boundary. If so, that player loses.
+    for player in players:
+        if player.check_boundary_collision(arena_rect):
+            # print(f'{player.id} loses!')
+            # resume the game and respawn the dead player, in a place where there is no other player
+            player.body[0] = get_random_dot_position(
+                player.body, window_width, window_height)
+            player.body = [player.body[0]] * player.length
+            # increase the deaths of the dead player
+            player.deaths += 1
+            # decrease the score of the dead player
+            player.score *= 0.9
 
     # if someone reaches 10 deaths, the game ends
     for player in players:
