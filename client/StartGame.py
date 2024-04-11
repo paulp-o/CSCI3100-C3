@@ -96,9 +96,14 @@ class StartGame:
                         self.port_active = True
                     elif self.join_box.collidepoint(event.pos):
                         # need to verify
-                        subprocess.call(['python', 'game_arena/main.py'])
+                        # subprocess.call(['python', 'game_arena/main.py'])
                         self.gameStateManager.set_state('gameover')
                         self.loop = False
+                        result = subprocess.run(['python', 'game_arena/main.py'], capture_output="True", text="True")
+                        output = result.stdout
+                        process = subprocess.Popen(['python', 'Gameover.py'], stdin=subprocess.PIPE)
+                        process.communicate(input=output.encode('utf-8'))
+                        
                     elif self.host_box.collidepoint(event.pos):
                         # need to host game
                         self.gameStateManager.set_state('gameover')

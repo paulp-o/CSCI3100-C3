@@ -1,4 +1,4 @@
-import pygame
+import pygame, sys
 import Game
 import Button
 
@@ -29,8 +29,11 @@ class Gameover:
         self.text_score_rect.center = self.rect_score.center
         
         # need to get final score 
-        result = '150'
+        input_data = sys.stdin.read()
         
+        
+        
+        result = '150'
         self.rect_score_display = pygame.Rect((Game.SCREEN_WIDTH)/2-100, 300, 200, 40)
         self.text_score_display = text_font.render(result, False, 'white')
         self.text_score_display_rect = self.text_score_display.get_rect()
