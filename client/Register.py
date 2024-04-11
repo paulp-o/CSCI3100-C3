@@ -109,7 +109,7 @@ class Register:
                         self.confirm_pwd_active = True
                     elif self.register_box.collidepoint(event.pos):
                         if self.try_register():
-                            self.gameStateManager.change_state('login')
+                            self.gameStateManager.set_state('login')
                             self.loop = False
                         else:
                             self.text_input_id = ''

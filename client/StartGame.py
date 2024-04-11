@@ -115,7 +115,7 @@ class StartGame:
 
                         # open game_arena
                         output = subprocess.check_output(
-                            ['python3', 'game_arena/main.py'])
+                            ['python', 'game_arena/main.py'])
 
                         # sample output (dict): {'ai': {'deaths': 0, 'kills': 0, 'score': 130}, 'ai2': {'deaths': 0, 'kills': 0, 'score': 140}, 'ai3': {'deaths': 0, 'kills': 0, 'score': 120}, 'ai4': {'deaths': 0, 'kills': 0, 'score': 135}, 'player': {'deaths': 0, 'kills': 0, 'score': 125}}
                         #  decoded output
@@ -130,7 +130,7 @@ class StartGame:
                                 max_score = result_dict[player]['score']
                                 winner = player
                         print('Winner is:', winner, 'with score:', max_score)
-
+                    
                     elif self.host_box.collidepoint(event.pos):
                         # need to host game
                         self.gameStateManager.set_state('gameover')
