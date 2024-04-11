@@ -29,7 +29,8 @@ class Gameover:
         self.text_score_rect.center = self.rect_score.center
         
         # need to get final score 
-        input_data = sys.stdin.read()
+        # input_data = sys.stdin.readline()
+        # print(input_data)
         
         
         
