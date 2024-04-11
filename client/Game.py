@@ -1,16 +1,18 @@
-import pygame
-import sys
-import Main
-import Settings
-import GameStateManager
-import Customization
-import Gameover
-import Login
-import Leaderboard
-import Button
-import Register
-import StartGame
 from pygame import mixer
+import StartGame
+import Register
+import Button
+import Leaderboard
+import Login
+import Gameover
+import Customization
+import GameStateManager
+import Settings
+import Main
+import sys
+import pygame
+from os import environ
+environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -24,11 +26,12 @@ SFX_on = True
 global mouse
 mouse = True
 global kb
-kb=False
+kb = False
 global chinese
 chinese = False
 global english
-english= True
+english = True
+
 
 class Game:
     def __init__(self):
@@ -40,20 +43,19 @@ class Game:
         global gameStateManager
         gameStateManager = GameStateManager.GameStateManager('login')
         main = Main.Main(screen, gameStateManager)
-        settings = Settings.Settings(screen, gameStateManager, music_on, SFX_on,mouse,kb,chinese,english)
+        settings = Settings.Settings(
+            screen, gameStateManager, music_on, SFX_on, mouse, kb, chinese, english)
         customization = Customization.Customization(screen, gameStateManager)
         gameover = Gameover.Gameover(screen, gameStateManager)
         login = Login.Login(screen, gameStateManager)
         leaderboard = Leaderboard.Leaderboard(screen, gameStateManager)
         register = Register.Register(screen, gameStateManager)
         start_game = StartGame.StartGame(screen, gameStateManager)
-        
+
         noBgm = no_bgm(gameStateManager)
         yesBgm = yes_bgm(gameStateManager)
         noSFX = no_SFX(gameStateManager)
         yesSFX = yes_SFX(gameStateManager)
-
-
 
         global states
         states = {'settings': settings,
@@ -73,7 +75,7 @@ class Game:
         Game.bgm = pygame.mixer.Sound('Audio/bgm.mp3')
         Game.bgm.set_volume(0.01)
         pygame.mixer.Sound.play(Game.bgm)
-        
+
     def run(self):
         while True:
             for event in pygame.event.get():
@@ -89,31 +91,36 @@ class Game:
 class no_bgm:
     def __init__(self, gameStateManager):
         self.gameStateManager = gameStateManager
+
     def run(self):
         Game.bgm.set_volume(0)
         self.gameStateManager.set_state('settings')
 
 
 class yes_bgm:
-    def __init__(self,gameStateManager):
+    def __init__(self, gameStateManager):
         self.gameStateManager = gameStateManager
+
     def run(self):
         Game.bgm.set_volume(0.01)
         self.gameStateManager.set_state('settings')
 
+
 class no_SFX:
     def __init__(self, gameStateManager):
         self.gameStateManager = gameStateManager
+
     def run(self):
         Settings.sfxvol = 0
         self.gameStateManager.set_state('settings')
 
 
 class yes_SFX:
-    def __init__(self,gameStateManager):
+    def __init__(self, gameStateManager):
         self.gameStateManager = gameStateManager
+
     def run(self):
-        Settings.sfxvol= 0.01
+        Settings.sfxvol = 0.01
         self.gameStateManager.set_state('settings')
 
 

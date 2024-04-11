@@ -18,6 +18,18 @@ HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
 other_players = {}
 
 
+class SnakeGame:
+    def __init__(self, width=800, height=600):
+        pygame.init()
+        self.window_width = width
+        self.window_height = height
+        self.window = pygame.display.set_mode(
+            (self.window_width, self.window_height))
+        self.running = True
+        self.clock = pygame.time.Clock()
+        # Add other initializations here...
+
+
 def server_communication():
     # Create a socket object
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
