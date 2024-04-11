@@ -28,6 +28,7 @@ class Gameover:
         self.text_score_rect = self.text_score.get_rect()
         self.text_score_rect.center = self.rect_score.center
         
+        # need to get final score 
         result = '150'
         
         self.rect_score_display = pygame.Rect((Game.SCREEN_WIDTH)/2-100, 300, 200, 40)
