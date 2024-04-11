@@ -21,7 +21,20 @@ class Gameover:
         self.text_title_rect = self.text_title.get_rect()
         self.text_title_rect.center = self.rect_title.center
         
+        # score
+        self.rect_score = pygame.Rect((Game.SCREEN_WIDTH)/2-100, 200, 200, 40)
+        self.color_score = pygame.Color('gold')
+        self.text_score = text_font.render('Score', False, 'white')
+        self.text_score_rect = self.text_score.get_rect()
+        self.text_score_rect.center = self.rect_score.center
         
+        result = '150'
+        
+        self.rect_score_display = pygame.Rect((Game.SCREEN_WIDTH)/2-100, 300, 200, 40)
+        self.text_score_display = text_font.render(result, False, 'white')
+        self.text_score_display_rect = self.text_score_display.get_rect()
+        self.text_score_display_rect.center = self.rect_score_display.center
+
 
     def run(self):
         Game.screen.fill((200, 200, 180))  # giving background color
@@ -29,6 +42,15 @@ class Gameover:
         self.back_button.draw()
         
         Game.screen.blit(self.text_title, self.text_title_rect)
+        
+        pygame.draw.rect(Game.screen, self.color_score, self.rect_score)
+        pygame.draw.rect(Game.screen, self.color_score, self.rect_score_display)
+        Game.screen.blit(self.text_score, self.text_score_rect)
+        Game.screen.blit(self.text_score_display, self.text_score_display_rect)
+        
+        
+        
+
         
         
         
