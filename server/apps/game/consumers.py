@@ -1,12 +1,13 @@
-# game/consumers.py
-from channels.generic.websocket import AsyncWebsocketConsumer
 import json
+from channels.generic.websocket import AsyncWebsocketConsumer
+
 
 class GameConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.room_group_name = 'game_room'
+        self.room_name = self.scope['url_route']['kwargs']['room_name']
+        self.room_group_name = 'game_%s' % self.room_name
 
-        # Join game room group
+        # Join room group
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
@@ -15,30 +16,31 @@ class GameConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
     async def disconnect(self, close_code):
-        # Leave game room group
+        # Leave room group
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
         )
 
+    # Receive message from WebSocket
     async def receive(self, text_data):
-        data = json.loads(text_data)
-        
-        # Process received data (e.g., player actions)
-        action = data.get('action')
-        
-        # For simplicity, we're broadcasting the received action to all clients
-        # In a real game, you'd update the game state based on the action before broadcasting
+        text_data_json = json.loads(text_data)
+        message = text_data_json['message']
+
+        # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name,
             {
-                'type': 'broadcast_message',
-                'message': data
+                'type': 'game_message',
+                'message': message
             }
         )
 
-    async def broadcast_message(self, event):
+    # Receive message from room group
+    async def game_message(self, event):
         message = event['message']
-        
+
         # Send message to WebSocket
-        await self.send(text_data=json.dumps(message))
+        await self.send(text_data=json.dumps({
+            'message': message
+        }))
