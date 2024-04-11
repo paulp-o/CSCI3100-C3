@@ -2,7 +2,44 @@ import pygame
 import sys
 import math
 import random
+import threading
+import socket
+import time
+from ai import play_ai
 
+# Initialize Pygame
+pygame.init()
+
+# Networking setup
+HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
+
+# other players
+# dictionary of players, key is their id, value is their info (snake_body(list))
+other_players = {}
+
+
+def server_communication():
+    # Create a socket object
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    # Define the server address and port
+    server_address = ('localhost', 12345)
+
+    # Connect to the server
+    s.connect(server_address)
+
+    while True:
+        # Receive data from the server
+        data = s.recv(1024)
+        # TODO: Process the received data
+        print(f"Received data from server: {data.decode()}")
+
+
+# Create a new thread that runs the server communication function
+t = threading.Thread(target=server_communication)
+
+# Start the new thread
+# t.start()
 
 # Set the dimensions of the game window
 window_width = 800
@@ -11,8 +48,8 @@ window = pygame.display.set_mode((window_width, window_height))
 input_method = 'mouse'  # or keyboard
 
 # Define arena bounds
-arena_width = 2000
-arena_height = 2000
+arena_width = 1000
+arena_height = 1000
 arena_rect = pygame.Rect(0, 0, arena_width, arena_height)
 
 # Define viewport
@@ -20,7 +57,6 @@ arena_rect = pygame.Rect(0, 0, arena_width, arena_height)
 viewport = pygame.Rect(0, 0, window_width, window_height)
 # Center the viewport in the game arena
 viewport.center = (arena_width / 2, arena_height / 2)
-
 
 # Set the title of the window
 pygame.display.set_caption('Snake.io')
@@ -30,79 +66,71 @@ pygame.display.set_caption('Snake.io')
 background = pygame.image.load('game_arena/background_image.jpg').convert()
 background_rect = background.get_rect()
 
-
 # Define colors
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
-
-# Define snake properties
-snake_pos = pygame.math.Vector2(
-    window_width//2, window_height//2)  # Starting in the middle
-snake_body = [pygame.math.Vector2(snake_pos.x, snake_pos.y)
-              for _ in range(5)]  # A list of vectors
-snake_direction = pygame.math.Vector2(1, 0)  # Moving right initially
-snake_speed = 3
-turn_speed = 5  # Degrees per frame
+BLUE = (0, 0, 255)
+YELLOW = (255, 255, 0)
+PURPLE = (255, 0, 255)
+ORANGE = (255, 165, 0)
 
 
-# Initialize level progression
-level_duration = 60  # Seconds
-level = 1
-start_time = pygame.time.get_ticks()
+class Snake:
+    def __init__(self, position, length, id):
+        # start with length segments.
+        self.id = id
+        self.body = [position] * length
+        self.length = length
+        self.direction = pygame.math.Vector2(1, 0)
+        self.speed = 3
+        self.turn_speed = 5
+        for i in range(1, length):
+            self.body[i] = self.body[i-1] - self.direction
+            # make the snake longer
+            self.grow()
 
+    def update(self):
+        self.check_boundary_collision(arena_rect)
+        self.check_food_collisions(food_dots)
+        self.move()
 
-# Define the dot properties
-dot_pos = pygame.math.Vector2(random.randrange(
-    1, window_width), random.randrange(1, window_height))
-dot_size = 10
+    def move(self):
+        new_body = [self.body[0] + self.direction * self.speed]
+        new_body.extend(self.body[:-1])
+        self.body = new_body
 
+    def draw(self, window, camera_offset, color=GREEN):
+        for segment in self.body:
+            adjusted_pos = (segment.x - camera_offset.x,
+                            segment.y - camera_offset.y)
+            pygame.draw.circle(window, color, adjusted_pos, snake_dot_size)
 
-# Draw the dot
+    def grow(self):
+        # Add a new segment to the snake
+        self.body.append(self.body[-1])
 
+    def rotate_vector(vector, angle):
+        """Rotate a vector by a given angle."""
+        rad_angle = math.radians(angle)
+        cos_theta = math.cos(rad_angle)
+        sin_theta = math.sin(rad_angle)
+        rotated_x = vector.x * cos_theta - vector.y * sin_theta
+        rotated_y = vector.x * sin_theta + vector.y * cos_theta
+        return pygame.math.Vector2(rotated_x, rotated_y)
 
-def rotate_vector(vector, angle):
-    """Rotate a vector by a given angle."""
-    rad_angle = math.radians(angle)
-    cos_theta = math.cos(rad_angle)
-    sin_theta = math.sin(rad_angle)
-    rotated_x = vector.x * cos_theta - vector.y * sin_theta
-    rotated_y = vector.x * sin_theta + vector.y * cos_theta
-    return pygame.math.Vector2(rotated_x, rotated_y)
+    def check_boundary_collision(self, boundary_rect):
+        # This checks the actual game world position, not affected by camera
+        return not boundary_rect.collidepoint(self.body[0].x, self.body[0].y)
 
-
-def move_snake(snake_body, snake_direction, snake_speed):
-    # Move the body
-    new_body = []
-    for i, segment in enumerate(snake_body):
-        if i == 0:
-            new_head = segment + snake_direction * snake_speed
-            new_body.append(new_head)
-        else:
-            new_body.append(snake_body[i-1])
-    return new_body
-
-
-def grow_snake(snake_body, additional_segments):
-    for _ in range(additional_segments):
-        snake_body.append(snake_body[-1])
-
-
-def draw_dot(window, dot_pos):
-    pygame.draw.circle(window, RED, (int(dot_pos.x), int(dot_pos.y)), dot_size)
-
-
-def draw_dots(window, food_dots, offset):
-    for dot_pos in food_dots:
-        dot_position = dot_pos - offset
-        pygame.draw.circle(window, RED, (int(dot_position.x),
-                           int(dot_position.y)), dot_size)
-
-
-def regenerate_food(dot_pos, snake_body, window_width, window_height, food_dots):
-    food_dots.remove(dot_pos)
-    food_dots.append(get_random_dot_position(
-        snake_body, window_width, window_height))
+    def check_food_collisions(snake, food_dots):
+        for food in food_dots[:]:  # Copy to avoid modification during iteration
+            if snake.body[0].distance_to(food) < snake_dot_size:
+                snake.grow()
+                food_dots.remove(food)
+                # Add new food dot to replace the eaten one
+                food_dots.append(get_random_dot_position(
+                    snake.body, window_width, window_height))
 
 
 def handle_keys(snake_direction, turn_speed, camera_offset, snake_head):
@@ -122,36 +150,66 @@ def handle_mouse(snake_direction, turn_speed, camera_offset, snake_head):
     # Calculate the angle only if the mouse is away from the center to prevent stuttering
     if dx**2 + dy**2 > 100:  # Using 100 pixels as a threshold for sensitivity
         angle = math.atan2(dy, dx)
-        snake_direction = pygame.math.Vector2(math.cos(angle), math.sin(angle))
+        snake_direction = pygame.math.Vector2(
+            math.cos(angle), math.sin(angle))
     else:
         # Continue in the same direction if the mouse is too close to the center
-        snake_direction = snake_head - pygame.math.Vector2(center_x, center_y)
+        snake_direction = snake_head - \
+            pygame.math.Vector2(center_x, center_y)
         if snake_direction.length() > 0:
             snake_direction = snake_direction.normalize()
 
     return snake_direction
 
 
+# make a player snake.
+player = Snake(pygame.math.Vector2(400, 400), 5, 'player')
+
+# make an AI snake.
+ai = Snake(pygame.math.Vector2(600, 600), 5, 'ai')
+ai2 = Snake(pygame.math.Vector2(200, 200), 5, 'ai2')
+ai3 = Snake(pygame.math.Vector2(800, 800), 5, 'ai3')
+ai4 = Snake(pygame.math.Vector2(100, 100), 5, 'ai4')
+
+
+# Initialize level progression
+level_duration = 60  # Seconds
+level = 1
+start_time = pygame.time.get_ticks()
+
+# Define the dot properties
+dot_pos = pygame.math.Vector2(random.randrange(
+    1, window_width), random.randrange(1, window_height))
+snake_dot_size = 14
+food_dot_size = 5
+
+# Draw the dot
+
+
+def draw_dot(window, dot_pos):
+    pygame.draw.circle(window, RED, (int(dot_pos.x),
+                                     int(dot_pos.y)), food_dot_size)
+
+
+def draw_dots(window, food_dots, offset):
+    for dot_pos in food_dots:
+        dot_position = dot_pos - offset
+        pygame.draw.circle(window, RED, (int(dot_position.x),
+                                         int(dot_position.y)), food_dot_size)
+
+
+def regenerate_food(dot_pos, snake_body, window_width, window_height, food_dots):
+    food_dots.remove(dot_pos)
+    food_dots.append(get_random_dot_position(
+        snake_body, window_width, window_height))
+
+
 def get_random_dot_position(snake_body, window_width, window_height):
     while True:
-        pos = pygame.math.Vector2(random.randint(dot_size, window_width - dot_size),
-                                  random.randint(dot_size, window_height - dot_size))
-        if not any(segment.distance_to(pos) < dot_size for segment in snake_body):
+        pos = pygame.math.Vector2(random.randint(food_dot_size, window_width - food_dot_size),
+                                  random.randint(food_dot_size, window_height - food_dot_size))
+        if not any(pygame.math.Vector2(segment).distance_to(pos) < food_dot_size for segment in snake_body):
             return pos
-
-
-def check_collision_with_dot(snake_head, dot_pos):
-    return snake_head.distance_to(dot_pos) < dot_size*2
-
-
-def check_collision_with_self(snake_body):
-    return any(segment.distance_to(snake_body[0]) < dot_size for segment in snake_body[1:])
-
-
-def check_boundary_collision(snake_head, boundary_rect):
-    # This checks the actual game world position, not affected by camera
-    # return not boundary_rect.contains(snake_head.get_rect(10))
-    return not boundary_rect.collidepoint(snake_head.x, snake_head.y)
 
 
 def check_level_progression(start_time, level_duration, level, snake_speed):
@@ -166,22 +224,6 @@ def get_camera_offset(snake_head, window_width, window_height):
     return snake_head - pygame.math.Vector2(window_width / 2, window_height / 2)
 
 # Update drawing functions to offset positions based on camera
-
-
-def draw_snake(window, snake_body, viewport, camera_offset):
-    for segment in snake_body:
-        # Adjust segment positions based on the camera_offset for drawing
-        adjusted_pos = (segment.x - camera_offset.x,
-                        segment.y - camera_offset.y)
-        pygame.draw.circle(window, GREEN, adjusted_pos, dot_size)
-
-# Similarly adjust drawing functions for food dots and the boundary
-
-
-def draw_dot(window, dot_pos, viewport):
-    if viewport.collidepoint(dot_pos.x, dot_pos.y):
-        adjusted_pos = (dot_pos.x - viewport.x, dot_pos.y - viewport.y)
-        pygame.draw.circle(window, RED, adjusted_pos, dot_size)
 
 
 def draw_background(window, offset, viewport):
@@ -211,16 +253,31 @@ def draw_boundary(window, boundary_rect, offset):
 
 # Define foods
 # Initialize multiple food dots
+# food_dots = [get_random_dot_position(
+#     # Start with 10 dots
+#     snake_body, window_width, window_height) for _ in range(10)]
 food_dots = [get_random_dot_position(
     # Start with 10 dots
-    snake_body, window_width, window_height) for _ in range(10)]
+    player.body, window_width, window_height) for _ in range(10)]
 
 # Main game loop
 running = True
+
+players = [ai, ai2, ai3, ai4, player]
+
+
+# store each players' deaths
+for player in players:
+    player.deaths = 0
+
+start_time = time.time()
 while running:
+    print(round((time.time() - start_time) / 1000, 1), 's')
     # Get camera offset
+    # camera_offset = get_camera_offset(
+    #     snake_body[0], window_width, window_height)
     camera_offset = get_camera_offset(
-        snake_body[0], window_width, window_height)
+        player.body[0], window_width, window_height)
     window.fill((0, 0, 0))  # Optional based on background coverage
     draw_background(window, camera_offset, viewport)
     draw_boundary(window, arena_rect, camera_offset)
@@ -228,46 +285,78 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # Handle keys
-    if input_method == 'keyboard':
-        snake_direction = handle_keys(
-            snake_direction, turn_speed, camera_offset, snake_body[0])
-    elif input_method == 'mouse':
-        snake_direction = handle_mouse(
-            snake_direction, turn_speed, camera_offset, snake_body[0])
+    # # Handle keys
+    # if input_method == 'keyboard':
+    #     snake_direction = handle_keys(
+    #         snake_direction, turn_speed, camera_offset, snake_body[0])
+    # elif input_method == 'mouse':
+    #     snake_direction = handle_mouse(
+    #         snake_direction, turn_speed, camera_offset, snake_body[0])
 
-    # Move the snake
-    snake_body = move_snake(snake_body, snake_direction, snake_speed)
+    # Handle keys for only player
+    # In the game loop, right before updating movements
+    if input_method == 'mouse':
+        player.direction = handle_mouse(
+            player.direction, player.turn_speed, camera_offset, player.body[0])
+    elif input_method == 'keyboard':
+        player.direction = handle_keys(
+            player.direction, player.turn_speed, camera_offset, player.body[0])
+    player.update()  # Update player based on the new direction
 
+    play_ai(ai, players, food_dots)
+    play_ai(ai2, players, food_dots)
+    play_ai(ai3, players, food_dots)
+    play_ai(ai4, players, food_dots)
+
+    ai.update()
+    ai2.update()
+    ai3.update()
+    ai4.update()
     # Check for collisions
-    if check_collision_with_dot(snake_body[0], dot_pos):
-        # Or more, depending on your growth logic
-        grow_snake(snake_body, additional_segments=1)
-        dot_pos = get_random_dot_position(
-            snake_body, window_width, window_height)
-
-    # if check_collision_with_self(snake_body):
-    #     print("Game Over")  # Placeholder for game over logic
-    #     running = False
-
-    if check_boundary_collision(snake_body[0], arena_rect):
-        print("Game Over")  # Placeholder for game over logic
-        running = False
-
-    # Update the collision check in the game loop
-    for dot_pos in food_dots[:]:  # Copy the list to avoid modification issues
-        if check_collision_with_dot(snake_body[0], dot_pos):
-            grow_snake(snake_body, additional_segments=1)
-            regenerate_food(dot_pos, snake_body, window_width,
-                            window_height, food_dots)
+    # if check_collision_with_dot(player.body[0], dot_pos):
+    #     # Or more, depending on your growth logic
+    #     player.grow()
+    #     dot_pos = get_random_dot_position(
+    #         player.body, window_width, window_height)
+    # Check for collisions for all players
+    for player in players:
+        if player.body[0].distance_to(dot_pos) < snake_dot_size:
+            player.grow()
+            dot_pos = get_random_dot_position(
+                player.body, window_width, window_height)
 
     # Draw everything
     draw_dots(window, food_dots, camera_offset)
-    draw_snake(window, snake_body, viewport, camera_offset)
+
+    # show each player's deaths in the bottom left corner
+    for i, player in enumerate(players):
+        font = pygame.font.Font(None, 36)
+        text = font.render(f'{player.id} deaths: {player.deaths}', True, WHITE)
+        window.blit(text, (10, window_height - 30 * (i + 1)))
+
+    # check if one of the player's head collides with other player's body. If so, that player loses.
+    for player in players:
+        for other_player in players:
+            if player == other_player:
+                continue
+            for segment in other_player.body[1:]:
+                if player.body[0].distance_to(segment) < snake_dot_size:
+                    print(f'{player.id} loses!')
+                    # resume the game and respawn the dead player, in a place where there is no other player
+                    player.body[0] = get_random_dot_position(
+                        player.body, window_width, window_height)
+                    player.body = [player.body[0]] * player.length
+                    # increase the deaths of the dead player
+                    player.deaths += 1
+
+    # draw all players, with all different colors
+    colors = [GREEN, BLUE, YELLOW, PURPLE, ORANGE]
+    for i, player in enumerate(players):
+        player.draw(window, camera_offset, colors[i])
 
     # Check level progression
     level, start_time, snake_speed = check_level_progression(
-        start_time, level_duration, level, snake_speed)
+        start_time, level_duration, level, player.speed)
 
     # Refresh the display
     pygame.display.flip()
@@ -276,7 +365,7 @@ while running:
     pygame.time.Clock().tick(60)
 
     # print snake position
-    # print(snake_body[0])
+    print(snake_body[0])
 
 # Quit the game
 pygame.quit()
