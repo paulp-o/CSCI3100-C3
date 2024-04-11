@@ -109,7 +109,7 @@ class Snake:
 
     def grow(self):
         # Add a new segment to the snake
-        self.score += 10
+        self.score += 5
         self.body.append(self.body[-1])
         self.body.append(self.body[-1])
         self.body.append(self.body[-1])

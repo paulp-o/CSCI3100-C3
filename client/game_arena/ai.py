@@ -14,7 +14,7 @@ def angle_between_vectors(v1, v2):
 
 
 def play_ai(ai, players, food_dots):
-    randomness = 25  # Base level of randomness in AI movement
+    randomness = 35  # Base level of randomness in AI movement
     aggression_threshold = 250  # Distance within which the AI considers being aggressive
 
     # Determine AI's current length and the nearest player
@@ -52,10 +52,14 @@ def play_ai(ai, players, food_dots):
             # Skip the head for less jittery avoidance
             for segment in player.body[1:]:
                 distance = ai.body[0].distance_to(segment)
-                if distance < 150:  # Too close to another body part
+                if distance < 100:  # Too close to another body part
                     avoid_dir = ai.body[0] - segment
                     direction += avoid_dir.normalize() * (100 - distance) / \
-                        1000  # Weighted by proximity
+                        100  # Weighted by proximity
+                    if mode == "passive":
+                        # Steer more to avoid collision if in passive mode
+                        direction += avoid_dir.normalize() * (100 - distance) / \
+                            100  # Weighted by proximity
 
     # Limit the angle change to the maximum allowed
     current_direction_angle = math.atan2(ai.direction.y, ai.direction.x)
