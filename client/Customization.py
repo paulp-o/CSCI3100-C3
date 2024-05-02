@@ -74,6 +74,12 @@ class SnakeDemo:
             elif self.mode == self.mode_list.index("outline"):
                 self.snake.append(self.SnakeBody(new_pos, selected_color, 5))
 
+    def get_pattern(self):
+        return self.mode
+
+    def get_color(self):
+        return selected_color
+
     def draw(self):
         for idx in range(0, self.length):
             # draw all parts in the snake

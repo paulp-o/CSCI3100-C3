@@ -6,6 +6,8 @@ import Game
 import Button
 import game_arena
 import subprocess
+import GameStateManager
+import variables
 
 
 class StartGame:
@@ -110,8 +112,6 @@ class StartGame:
                     elif self.join_box.collidepoint(event.pos):
                         # need to verify
                         # subprocess.call(['python', 'game_arena/main.py'])
-                        self.gameStateManager.set_state('gameover')
-                        self.loop = False
 
                         # open game_arena
                         output = subprocess.check_output(
@@ -130,7 +130,13 @@ class StartGame:
                                 max_score = result_dict[player]['score']
                                 winner = player
                         print('Winner is:', winner, 'with score:', max_score)
-                    
+                        # score of the player
+                        variables.score_ = result_dict['player']['score']
+                        variables.game_result_ = result_dict
+                        print('Score:', variables.score_)
+                        self.gameStateManager.set_state('gameover')
+                        self.loop = False
+
                     elif self.host_box.collidepoint(event.pos):
                         # need to host game
                         self.gameStateManager.set_state('gameover')

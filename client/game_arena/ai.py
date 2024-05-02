@@ -2,8 +2,7 @@ import pygame
 import random
 import math
 
-
-MAX_ANGLE_CHANGE = 30  # Maximum angle change in degrees per update
+MAX_ANGLE_CHANGE = 20  # Maximum angle change in degrees per update
 
 
 def angle_between_vectors(v1, v2):
@@ -44,7 +43,7 @@ def play_ai(ai, players, food_dots):
 
     # Calculate base direction towards target
     direction = target - ai.body[0] + pygame.math.Vector2(
-        random.uniform(-randomness, randomness), random.uniform(-randomness, randomness))
+        random.gauss(0, randomness), random.gauss(0, randomness))
 
     # Avoidance behavior - steer away from other snakes
     for player in players:

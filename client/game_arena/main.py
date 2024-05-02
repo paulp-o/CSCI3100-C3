@@ -86,6 +86,7 @@ BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 PURPLE = (255, 0, 255)
 ORANGE = (255, 165, 0)
+BLACK = (0, 0, 0)
 
 
 class Snake:
@@ -118,6 +119,25 @@ class Snake:
             adjusted_pos = (segment.x - camera_offset.x,
                             segment.y - camera_offset.y)
             pygame.draw.circle(window, color, adjusted_pos, snake_dot_size)
+        # draw eyes
+        head = self.body[0]
+        eye_offset = self.direction * snake_dot_size * 0.5  # Adjust the eye offset
+        left_eye_pos = head + eye_offset.rotate(90)
+        right_eye_pos = head + eye_offset.rotate(-90)
+        pygame.draw.circle(window, WHITE, (int(left_eye_pos.x - camera_offset.x),
+                           # Increase the size of the white part
+                                           int(left_eye_pos.y - camera_offset.y)), 4)
+        pygame.draw.circle(window, WHITE, (int(right_eye_pos.x - camera_offset.x),
+                           # Increase the size of the white part
+                                           int(right_eye_pos.y - camera_offset.y)), 4)
+        # draw black part of the eyes
+        forward_offset = self.direction * snake_dot_size * 0.2  # Adjust the forward offset
+        pygame.draw.circle(window, BLACK, (int(left_eye_pos.x + forward_offset.x - camera_offset.x),
+                           # Move the black part forward
+                                           int(left_eye_pos.y + forward_offset.y - camera_offset.y)), 2)
+        pygame.draw.circle(window, BLACK, (int(right_eye_pos.x + forward_offset.x - camera_offset.x),
+                           # Move the black part forward
+                                           int(right_eye_pos.y + forward_offset.y - camera_offset.y)), 2)
 
     def grow(self):
         # Add a new segment to the snake
@@ -147,8 +167,10 @@ class Snake:
                 snake.grow()
                 food_dots.remove(food)
                 # Add new food dot to replace the eaten one
-                food_dots.append(get_random_dot_position(
-                    snake.body, window_width, window_height))
+                # don't append if there are already enough food dots
+                if len(food_dots) < food_num:
+                    food_dots.append(get_random_dot_position(
+                        snake.body, arena_width, arena_height))
 
 
 def handle_keys(snake_direction, turn_speed, camera_offset, snake_head):
@@ -216,7 +238,7 @@ start_time = pygame.time.get_ticks()
 dot_pos = pygame.math.Vector2(random.randrange(
     1, window_width), random.randrange(1, window_height))
 snake_dot_size = 14
-food_dot_size = 5
+food_dot_size = 3
 
 # Draw the dot
 
@@ -226,11 +248,11 @@ def draw_dot(window, dot_pos):
                                      int(dot_pos.y)), food_dot_size)
 
 
-def draw_dots(window, food_dots, offset):
+def draw_dots(window, food_dots, offset, color):
     for dot_pos in food_dots:
         dot_position = dot_pos - offset
-        pygame.draw.circle(window, RED, (int(dot_position.x),
-                                         int(dot_position.y)), food_dot_size)
+        pygame.draw.circle(window, color, (int(dot_position.x),
+                                           int(dot_position.y)), food_dot_size)
 
 
 def regenerate_food(dot_pos, snake_body, window_width, window_height, food_dots):
@@ -374,7 +396,7 @@ while running:
                 player.body, window_width, window_height)
 
     # Draw everything
-    draw_dots(window, food_dots, camera_offset)
+    draw_dots(window, food_dots, camera_offset, YELLOW)
 
     # check if one of the player's head collides with other player's body. If so, that player loses.
     for player in players:
@@ -383,6 +405,11 @@ while running:
                 continue
             for segment in other_player.body[1:]:
                 if player.body[0].distance_to(segment) < snake_dot_size:
+                    # First, spawn foods for every 10 segments of the dead player
+                    for i, segment in enumerate(player.body):
+                        if i % 10 == 0:
+                            food_dots.append(segment)
+                    # regenerate the food
                     # print(f'{player.id} loses!')
                     # resume the game and respawn the dead player, in a place where there is no other player
                     player.body[0] = get_random_dot_position(
@@ -397,7 +424,7 @@ while running:
                     # increase the score of the killer. add 100 first
                     other_player.score += 100
                     # increase the score of the killer, depending on the length of the dead player
-                    other_player.score += player.length * 10
+                    other_player.score += player.length
 
     # check if one of the player's head collides with the boundary. If so, that player loses.
     for player in players:
